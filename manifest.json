@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "site": "https://fluxui.dev",
+  "index_url": "https://fluxui.dev/llms.txt",
+  "components": {
+    "date-picker": {
+      "name": "Date picker",
+      "summary": "Choose a calendar date or a date interval.",
+      "source_url": "https://fluxui.dev/components/date-picker.md",
+      "source_sha256": "b0f51710bb82fb7d11e14b82a4b07ccfaf9fe987fca08ba47392a550042a6e9f",
+      "pro": true,
+      "note": "references/components/date-picker.md"
+    },
+    "time-picker": {
+      "name": "Time picker",
+      "summary": "Choose a clock time for scheduling.",
+      "source_url": "https://fluxui.dev/components/time-picker.md",
+      "source_sha256": "64556b020ff16bc17bdf1031a54d5b6e59038f43d6ae2c445db88c3318abbb52",
+      "pro": true,
+      "note": "references/components/time-picker.md"
+    }
+  }
+}
