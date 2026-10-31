@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Discover Flux v2 components and select reviewed, live, or cached guidance."""
+"""Discover Flux v2 documentation and select reviewed, live, or cached guidance."""
 
 from __future__ import annotations
 
@@ -19,9 +19,10 @@ from typing import Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_URL = "https://fluxui.dev/llms.txt"
-COMPONENT_LINE = re.compile(
-    r"^- \[([^]]+)\]\((https://fluxui\.dev/components/([a-z0-9-]+)\.md)\)(?:\s+-\s+(.*))?$"
+RESOURCE_LINE = re.compile(
+    r"^- \[([^]]+)\]\((https://fluxui\.dev/(components|docs|layouts)/([a-z0-9-]+)\.md)\)(?:\s+-\s+(.*))?$"
 )
+RESOURCE_KIND = {"components": "components", "docs": "guides", "layouts": "layouts"}
 Fetch = Callable[[str], bytes]
 
 
@@ -57,18 +58,33 @@ def atomic_write(path: Path, data: bytes) -> None:
 def parse_index(data: bytes) -> dict[str, dict[str, str]]:
     entries: dict[str, dict[str, str]] = {}
     for line in data.decode("utf-8").splitlines():
-        match = COMPONENT_LINE.fullmatch(line.strip())
+        match = RESOURCE_LINE.fullmatch(line.strip())
         if match:
-            name, url, slug, description = match.groups()
+            name, url, path, slug, description = match.groups()
+            if slug in entries:
+                raise ValueError(f"Duplicate documentation slug: {slug}")
             entries[slug] = {
                 "slug": slug,
                 "name": name,
                 "url": url,
                 "description": description or "",
+                "kind": RESOURCE_KIND[path],
             }
     if not entries:
-        raise ValueError("Flux UI index contains no component links")
+        raise ValueError("Flux UI index contains no documentation links")
     return entries
+
+
+def pro_sections(markdown: str) -> list[str]:
+    """Find sections marked Pro inside an otherwise free component page."""
+    current = None
+    sections = []
+    for line in markdown.splitlines():
+        if line.startswith("## "):
+            current = line[3:].strip()
+        elif line == "> [!PRO]" and current and current not in sections:
+            sections.append(current)
+    return sections
 
 
 class Docs:
@@ -80,7 +96,11 @@ class Docs:
     ) -> None:
         self.root = root
         self.manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
-        self.bundled = self.manifest["components"]
+        self.bundled = {
+            slug: {**entry, "kind": kind}
+            for kind in ("components", "guides", "layouts")
+            for slug, entry in self.manifest.get(kind, {}).items()
+        }
         self.cache_dir = cache_dir or Path(
             os.environ.get("FLUXUI_SKILL_CACHE", Path.home() / ".cache" / "fluxui-development")
         )
@@ -106,11 +126,12 @@ class Docs:
 
     def catalog(self, offline: bool = False) -> dict:
         indexed, source, error = self._index(offline)
-        entries = []
+        entries = {"components": [], "guides": [], "layouts": []}
         for slug in sorted(indexed.keys() | self.bundled.keys()):
             live = indexed.get(slug)
             bundled = self.bundled.get(slug)
-            entries.append(
+            kind = live["kind"] if live else bundled["kind"]
+            entries[kind].append(
                 {
                     "slug": slug,
                     "name": live["name"] if live else bundled["name"],
@@ -118,12 +139,15 @@ class Docs:
                     "url": live["url"] if live else bundled["source_url"],
                     "bundle_status": "bundled" if bundled else "new-to-skill",
                     "index_status": "listed" if live else "bundled-only",
+                    "pro": bundled["pro"] if bundled else None,
+                    "pro_sections": bundled.get("pro_sections", []) if bundled else [],
+                    "kind": kind,
                 }
             )
-        return {"index_source": source, "index_error": error, "components": entries}
+        return {"index_source": source, "index_error": error, **entries}
 
     def audit(self) -> dict:
-        """Compare every live component with the bundled snapshot for maintainers."""
+        """Compare every live documentation page with the bundled snapshot."""
         indexed = parse_index(self.fetch(INDEX_URL))
         changes = []
         unchanged = 0
@@ -146,13 +170,13 @@ class Docs:
 
     def show(self, slug: str, offline: bool = False, force_live: bool = False) -> dict:
         if not re.fullmatch(r"[a-z0-9-]+", slug):
-            raise ValueError("Component slug must contain only lowercase letters, digits, and hyphens")
+            raise ValueError("Documentation slug must contain only lowercase letters, digits, and hyphens")
         catalog = self.catalog(offline=offline)
-        entry = next((item for item in catalog["components"] if item["slug"] == slug), None)
+        entry = next((item for kind in ("components", "guides", "layouts") for item in catalog[kind] if item["slug"] == slug), None)
         if entry is None:
-            raise ValueError(f"Unknown component: {slug}")
+            raise ValueError(f"Unknown documentation page: {slug}")
         bundled = self.bundled.get(slug)
-        cache_path = self.cache_dir / "components" / f"{slug}.md"
+        cache_path = self.cache_dir / entry["kind"] / f"{slug}.md"
         remote = None
         fetch_error = None
         if not offline:
@@ -164,18 +188,19 @@ class Docs:
                 fetch_error = str(exc)
         if remote is not None:
             digest = sha256(remote)
+            remote_doc = remote.decode("utf-8")
             match = bundled is not None and digest == bundled["source_sha256"]
             if match and not force_live:
                 content = (self.root / bundled["note"]).read_text(encoding="utf-8")
                 content_source = "bundled"
             else:
-                content = remote.decode("utf-8")
+                content = remote_doc
                 content_source = "live"
             return self._result(
                 slug, entry, content, content_source,
                 "matched" if match else "changed" if bundled else "new",
-                digest, content.startswith("> [!PRO]") if content_source == "live" else bundled["pro"],
-                catalog["index_source"], None,
+                digest, remote_doc.startswith("> [!PRO]"),
+                catalog["index_source"], None, pro_sections(remote_doc),
             )
 
         if cache_path.exists():
@@ -192,7 +217,7 @@ class Docs:
                 pro = content.startswith("> [!PRO]")
             return self._result(
                 slug, entry, content, content_source, "unverified", digest,
-                pro, catalog["index_source"], fetch_error,
+                pro, catalog["index_source"], fetch_error, pro_sections(cached.decode("utf-8")),
             )
 
         if bundled:
@@ -200,26 +225,26 @@ class Docs:
             return self._result(
                 slug, entry, content, "bundled", "unverified",
                 bundled["source_sha256"], bundled["pro"],
-                catalog["index_source"], fetch_error,
+                catalog["index_source"], fetch_error, bundled.get("pro_sections", []),
             )
-        raise ValueError(
-            f"No documentation for {slug}: live page unavailable and no cached or bundled copy"
-        )
+        raise ValueError(f"No documentation for {slug}: live page unavailable and no cached or bundled copy")
 
     @staticmethod
     def _result(
         slug: str, entry: dict, content: str, content_source: str,
         verification: str, digest: str, pro: bool, index_source: str,
-        fetch_error: str | None,
+        fetch_error: str | None, pro_only_sections: list[str],
     ) -> dict:
         return {
             "slug": slug,
+            "kind": entry["kind"],
             "url": entry["url"],
             "content_source": content_source,
             "verification": verification,
             "index_source": index_source,
             "source_sha256": digest,
             "pro": pro,
+            "pro_sections": pro_only_sections,
             "fetch_error": fetch_error,
             "checked_at": datetime.now(timezone.utc).isoformat() if verification != "unverified" else None,
             "content": content,
@@ -255,16 +280,20 @@ def main() -> int:
         print(f"Index: {result['index_source']}")
         if result["index_error"]:
             print(f"Index fetch failed: {result['index_error']}")
-        for item in result["components"]:
-            print(f"- {item['name']} ({item['slug']}) [{item['bundle_status']}]: {item['description']}")
+        for kind in ("guides", "layouts", "components"):
+            print(f"{kind.title()}:")
+            for item in result[kind]:
+                print(f"- {item['name']} ({item['slug']}) [{item['bundle_status']}]: {item['description']}")
     elif args.command == "audit":
         print(f"Unchanged: {result['unchanged']}; changes: {len(result['changes'])}")
         for item in result["changes"]:
             print(f"- {item['slug']}: {item['status']} ({item['url']})")
     else:
+        tier = "Pro" if result["pro"] else "Free with Pro variants" if result["pro_sections"] else "Free"
+        category = result["kind"] if result["kind"] != "components" else f"component, {tier}"
         print(
             f"{result['slug']}: {result['content_source']}, {result['verification']}, "
-            f"{'Pro' if result['pro'] else 'Free'}, index={result['index_source']}"
+            f"{category}, index={result['index_source']}"
         )
         if result["fetch_error"]:
             print(f"Live fetch failed: {result['fetch_error']}")

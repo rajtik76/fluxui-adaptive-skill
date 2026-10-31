@@ -1,14 +1,14 @@
 # Flux UI Adaptive Skill
 
-An **unofficial agent skill** for Livewire Flux UI. It builds on the workflow of Laravel Boost's MIT-licensed Flux UI skill and adds live discovery. The bundle contains concise notes for all 52 components listed by Flux UI on 31 October 2026, including 21 Pro components. An optional Python helper provides SHA-256 source checks and a private offline cache.
+An **unofficial agent skill** for Livewire Flux UI. It builds on the workflow of Laravel Boost's MIT-licensed Flux UI skill and adds live discovery. The bundle covers all 52 components, eight guides, and two layouts listed by Flux UI on 31 October 2026, including 21 wholly Pro components and Pro-only variants of Select. An optional Python helper provides SHA-256 source checks and a private offline cache.
 
 ## What it does
 
-1. The agent reads the current [Flux UI `llms.txt`](https://fluxui.dev/llms.txt) with its available web tool, then merges it with `manifest.json`. Newly released components enter the router immediately.
-2. For selected components, the agent reads official Markdown, or the corresponding HTML page when its web tool cannot open `.md`. Without a reliable raw-byte hash check, it uses the live page directly. With the optional helper, an unchanged page selects the concise bundled note; a changed or new page selects the live page immediately.
+1. The agent reads the current [Flux UI `llms.txt`](https://fluxui.dev/llms.txt) with its available web tool, then merges it with `manifest.json`. Newly released guides, layouts, and components enter the router immediately.
+2. For selected pages, the agent reads official Markdown, or the corresponding HTML page when its web tool cannot open `.md`. Without a reliable raw-byte hash check, it uses the live page directly. With the optional helper, an unchanged page selects the bundled reference; a changed or new page selects the live page immediately.
 3. The helper caches fetched pages privately. If Flux UI is unavailable later, the agent can use an accessible cache or a bundled note, labeled unverified.
 
-The Flux UI Markdown pages are **not distributed in this repository**. Each component has an original short note, starter snippet, selected API names, and a link to the official page. The skill targets Flux v2. A component released after the bundled snapshot must be fetched at least once before it can work offline. When a request goes beyond a note or the agent is unsure about an API, it reads the current official Markdown page; if the web tool cannot open `.md`, it uses the corresponding HTML page.
+The Flux UI Markdown pages are **not distributed in this repository**. Each component has original customization guidance, a capability inventory, documented tags and props with option values and defaults, a starter snippet, and a link to the official page. Guides and layouts have original task-oriented references. The skill targets Flux v2. A page released after the bundled snapshot must be fetched at least once before it can work offline. For specific customization or any uncertain API, the agent reads the current official Markdown page even if the bundled hash matches; if the web tool cannot open `.md`, it uses the corresponding HTML page.
 
 ## Install
 
@@ -26,6 +26,8 @@ Installing a skill cannot grant a runtime, network access, or bypass an agent ho
 python3 scripts/fluxui_docs.py catalog
 python3 scripts/fluxui_docs.py show date-picker
 python3 scripts/fluxui_docs.py show datetime-picker
+python3 scripts/fluxui_docs.py show theming
+python3 scripts/fluxui_docs.py show sidebar
 python3 scripts/fluxui_docs.py show datetime-picker --offline
 ```
 
@@ -33,7 +35,7 @@ The cache defaults to `~/.cache/fluxui-development`. Set `FLUXUI_SKILL_CACHE` to
 
 ## Maintaining the bundle
 
-Run `python3 scripts/fluxui_docs.py audit` to compare every live component page with `manifest.json`. The scheduled GitHub Actions workflow runs this check weekly and opens or updates an issue when it finds a new, changed, or removed component. The skill uses live documentation immediately when a bundled hash differs; updating the notes is a separate maintenance task.
+Run `python3 scripts/fluxui_docs.py audit` to compare every live guide, layout, and component page with `manifest.json`. The scheduled GitHub Actions workflow runs this check weekly and opens or updates an issue when it finds a new, changed, or removed page. The skill uses live documentation immediately when a bundled hash differs; updating the references is a separate maintenance task.
 
 ## Verify
 

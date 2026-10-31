@@ -19,7 +19,7 @@ jobs:
           python-version: '3.12'
       - name: Compare live documentation with the bundle
         run: python3 scripts/fluxui_docs.py audit --json > "$RUNNER_TEMP/fluxui-audit.json"
-      - name: Notify maintainers of new or changed components
+      - name: Notify maintainers of documentation changes
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -34,9 +34,9 @@ jobs:
           changes = report['changes']
           if changes:
               lines = [
-                  'The live Flux UI documentation differs from the bundled component snapshot.',
+                  'The live Flux UI documentation differs from the bundled snapshot.',
                   '',
-                  'The skill already uses the live page for new or changed components. Review these pages and update the local notes and hashes when ready.',
+                  'The skill already uses the live page for new or changed documentation. Review these pages and update the local references and hashes when ready.',
                   '',
               ]
               for item in changes:
@@ -52,5 +52,5 @@ jobs:
               gh issue create --title "$title" --body-file "$RUNNER_TEMP/fluxui-issue.md"
             fi
           elif [ -n "$issue" ]; then
-            gh issue close "$issue" --comment 'The bundled component snapshot now matches the live Flux UI documentation.'
+            gh issue close "$issue" --comment 'The bundled snapshot now matches the live Flux UI documentation.'
           fi

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "site": "https://fluxui.dev",
   "index_url": "https://fluxui.dev/llms.txt",
   "components": {
@@ -313,6 +313,14 @@
       "source_url": "https://fluxui.dev/components/select.md",
       "source_sha256": "b4fe63955852b7bb201b29845b28e22d89ef69b11a2de52433add4cd2f438960",
       "pro": false,
+      "pro_sections": [
+        "Custom select",
+        "Searchable select",
+        "Multiple select",
+        "Combobox",
+        "Backend search",
+        "Create option"
+      ],
       "note": "references/components/select.md"
     },
     "separator": {
@@ -418,6 +426,90 @@
       "source_sha256": "773e9b1e8842e2a1b791efd5e7c13f6f560e2108b61236899d5612475a14aa85",
       "pro": false,
       "note": "references/components/tooltip.md"
+    }
+  },
+  "guides": {
+    "installation": {
+      "name": "Installation",
+      "summary": "Install Flux, load assets, configure Tailwind, and activate Pro when licensed.",
+      "source_url": "https://fluxui.dev/docs/installation.md",
+      "source_sha256": "537226b395a40002edff9f952bad7bf6d25a8a693a8036c2ff281fac17ee7465",
+      "pro": false,
+      "note": "references/guides/installation.md"
+    },
+    "upgrading": {
+      "name": "Upgrade guide",
+      "summary": "Migrate an existing Flux v1 application to v2.",
+      "source_url": "https://fluxui.dev/docs/upgrading.md",
+      "source_sha256": "e2aa0f028536b1c43ad4aa5ba255a5acc7dcffdb18d5d9c2e1df143bc6c0cde0",
+      "pro": false,
+      "note": "references/guides/upgrading.md"
+    },
+    "principles": {
+      "name": "Principles",
+      "summary": "Choose and compose Flux components using its design principles.",
+      "source_url": "https://fluxui.dev/docs/principles.md",
+      "source_sha256": "3550c8771efd7b20d3626a1c6ae2c9490c3d314497e943ed3946d41b0880c9a9",
+      "pro": false,
+      "note": "references/guides/principles.md"
+    },
+    "patterns": {
+      "name": "Patterns",
+      "summary": "Understand props, forwarded attributes, class merging, slots, and Livewire binding.",
+      "source_url": "https://fluxui.dev/docs/patterns.md",
+      "source_sha256": "debd56560961832a8549e62b8f7ed8a8d59b03f4276832df6dbad6eae2c7a684",
+      "pro": false,
+      "note": "references/guides/patterns.md"
+    },
+    "theming": {
+      "name": "Theming",
+      "summary": "Set base and accent colors through CSS theme tokens.",
+      "source_url": "https://fluxui.dev/docs/theming.md",
+      "source_sha256": "7c34e37a30b08a0f02a3503f32335d1a624e5f64951648ee375186c58a3dff91",
+      "pro": false,
+      "note": "references/guides/theming.md"
+    },
+    "dark-mode": {
+      "name": "Dark mode",
+      "summary": "Configure and control light, dark, and system appearance.",
+      "source_url": "https://fluxui.dev/docs/dark-mode.md",
+      "source_sha256": "96645d4822c76b13b8cc59e09ff871dca3910eeaee4dc6f7d82229af9fcabff3",
+      "pro": false,
+      "note": "references/guides/dark-mode.md"
+    },
+    "customization": {
+      "name": "Customization",
+      "summary": "Adjust styles locally, publish component views, or apply global overrides.",
+      "source_url": "https://fluxui.dev/docs/customization.md",
+      "source_sha256": "c614393bd4045f4dda84df159e549c72aa4dde09ddc8a9fd3e50d1c83483e742",
+      "pro": false,
+      "note": "references/guides/customization.md"
+    },
+    "help": {
+      "name": "Help",
+      "summary": "Find the right official channel for bugs, requests, and license support.",
+      "source_url": "https://fluxui.dev/docs/help.md",
+      "source_sha256": "0863324ec9d54295bc6045e6e9246d760edde046ef8a9c6da0adbfa7d27bee52",
+      "pro": false,
+      "note": "references/guides/help.md"
+    }
+  },
+  "layouts": {
+    "header": {
+      "name": "Header",
+      "summary": "Build a responsive application shell around a top navigation header.",
+      "source_url": "https://fluxui.dev/layouts/header.md",
+      "source_sha256": "4e09f94af8e73ec55427a6e31a86d6056003893743489040ed106a347af7703a",
+      "pro": false,
+      "note": "references/layouts/header.md"
+    },
+    "sidebar": {
+      "name": "Sidebar",
+      "summary": "Build a responsive application shell around side navigation.",
+      "source_url": "https://fluxui.dev/layouts/sidebar.md",
+      "source_sha256": "08c6df8cfce02a98a821a40d9f887ab32075d836aba7714e6adb7ad15482a7ee",
+      "pro": false,
+      "note": "references/layouts/sidebar.md"
     }
   }
 }
