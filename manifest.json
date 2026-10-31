@@ -3,21 +3,421 @@
   "site": "https://fluxui.dev",
   "index_url": "https://fluxui.dev/llms.txt",
   "components": {
+    "accordion": {
+      "name": "Accordion",
+      "summary": "Show expandable sections such as FAQs.",
+      "source_url": "https://fluxui.dev/components/accordion.md",
+      "source_sha256": "5b200bfd7887e4b37f230ac3b7612cebbb7383ae017d0eb488d769cc85283c28",
+      "pro": true,
+      "note": "references/components/accordion.md"
+    },
+    "autocomplete": {
+      "name": "Autocomplete",
+      "summary": "Suggest matching values while someone types in a form field.",
+      "source_url": "https://fluxui.dev/components/autocomplete.md",
+      "source_sha256": "01416f7c478f317ea409e9d31e4bc016a3f825b9a7dec6b19fc0a6b6a9298470",
+      "pro": true,
+      "note": "references/components/autocomplete.md"
+    },
+    "avatar": {
+      "name": "Avatar",
+      "summary": "Represent a person or entity with an image, initials, or icon.",
+      "source_url": "https://fluxui.dev/components/avatar.md",
+      "source_sha256": "c230c25512ff3dc58030ed71b2be767a29e3ec646afac306a23d1651cb4d30d0",
+      "pro": false,
+      "note": "references/components/avatar.md"
+    },
+    "badge": {
+      "name": "Badge",
+      "summary": "Mark status or category with compact text.",
+      "source_url": "https://fluxui.dev/components/badge.md",
+      "source_sha256": "8738b77801e9a36fefa34c62e740120061ca5d1210545828e4d43ae1469af4f7",
+      "pro": false,
+      "note": "references/components/badge.md"
+    },
+    "brand": {
+      "name": "Brand",
+      "summary": "Display a logo and product name in navigation or a header.",
+      "source_url": "https://fluxui.dev/components/brand.md",
+      "source_sha256": "3745f7caf4351fefd8707d5b847cdea48cf7cd7fb54a92658b7759b1a19cfe31",
+      "pro": false,
+      "note": "references/components/brand.md"
+    },
+    "button": {
+      "name": "Button",
+      "summary": "Trigger an action or present a link.",
+      "source_url": "https://fluxui.dev/components/button.md",
+      "source_sha256": "8ea2f8a191dedb37c6a678a9be0c8312045642bce185288932616eafba5f10fa",
+      "pro": false,
+      "note": "references/components/button.md"
+    },
+    "breadcrumbs": {
+      "name": "Breadcrumbs",
+      "summary": "Show the current page within a navigation hierarchy.",
+      "source_url": "https://fluxui.dev/components/breadcrumbs.md",
+      "source_sha256": "4f8f8c1e9ee0de35299253693679cab2d32ad47ffb3a366a0a5486770c2cdf2f",
+      "pro": false,
+      "note": "references/components/breadcrumbs.md"
+    },
+    "calendar": {
+      "name": "Calendar",
+      "summary": "Select dates directly in a calendar view.",
+      "source_url": "https://fluxui.dev/components/calendar.md",
+      "source_sha256": "036a62c1c17a09e34d4ae8589031295fb6d7b69f622e3752c3c12966b78b667c",
+      "pro": true,
+      "note": "references/components/calendar.md"
+    },
+    "callout": {
+      "name": "Callout",
+      "summary": "Draw attention to guidance, updates, or warnings.",
+      "source_url": "https://fluxui.dev/components/callout.md",
+      "source_sha256": "7e4a2439c2b650aa3a0ede6163283826e898b8c95d70ccd5cf92fea6580bd1e6",
+      "pro": false,
+      "note": "references/components/callout.md"
+    },
+    "card": {
+      "name": "Card",
+      "summary": "Group related content with a consistent container.",
+      "source_url": "https://fluxui.dev/components/card.md",
+      "source_sha256": "c6c1ee8e0caf3913d6a18e5197bb37401b0fd9d0e31f69362b0f7ae477c46c2f",
+      "pro": false,
+      "note": "references/components/card.md"
+    },
+    "carousel": {
+      "name": "Carousel",
+      "summary": "Present a sequence of horizontally scrollable slides.",
+      "source_url": "https://fluxui.dev/components/carousel.md",
+      "source_sha256": "cd04e7c3c1e6f6304b64cfb9166fb8d65d9dee9acb2c68359b40a59dbb4e7a3c",
+      "pro": true,
+      "note": "references/components/carousel.md"
+    },
+    "chart": {
+      "name": "Chart",
+      "summary": "Visualize Livewire data with Flux chart primitives.",
+      "source_url": "https://fluxui.dev/components/chart.md",
+      "source_sha256": "c8b61c0e645781e7c6f42fcb1beb40aa7401d7b2a5739f44a66a82eac3f1087d",
+      "pro": true,
+      "note": "references/components/chart.md"
+    },
+    "checkbox": {
+      "name": "Checkbox",
+      "summary": "Collect one or more boolean choices.",
+      "source_url": "https://fluxui.dev/components/checkbox.md",
+      "source_sha256": "8b852e504089726d792b73f6510e9de4e9dd362f96b5b298401cc2578af6e5b3",
+      "pro": false,
+      "note": "references/components/checkbox.md"
+    },
+    "color-picker": {
+      "name": "Color picker",
+      "summary": "Let someone choose or enter a color.",
+      "source_url": "https://fluxui.dev/components/color-picker.md",
+      "source_sha256": "e08c40b1d9f81b499184ea985dbf17b4967ad9326571e1e6993251f1348844fa",
+      "pro": true,
+      "note": "references/components/color-picker.md"
+    },
+    "command": {
+      "name": "Command palette",
+      "summary": "Offer a searchable list of actions.",
+      "source_url": "https://fluxui.dev/components/command.md",
+      "source_sha256": "de789299fb18b955490e48ba16a632d748dd5b70aad8be760af0e9820912d19a",
+      "pro": true,
+      "note": "references/components/command.md"
+    },
+    "context": {
+      "name": "Context menu",
+      "summary": "Open a menu from a right-click target.",
+      "source_url": "https://fluxui.dev/components/context.md",
+      "source_sha256": "233595f07ad2240f9305ebbc60ffd479c8ea0d3e15c3ac6e334f0a15a59b61e4",
+      "pro": true,
+      "note": "references/components/context.md"
+    },
+    "composer": {
+      "name": "Composer",
+      "summary": "Collect a message with optional actions and rich text.",
+      "source_url": "https://fluxui.dev/components/composer.md",
+      "source_sha256": "208d0a6b0718069a167198be48951d37328a686b62e2e4c1d5de6fc57c1ff17e",
+      "pro": true,
+      "note": "references/components/composer.md"
+    },
     "date-picker": {
       "name": "Date picker",
-      "summary": "Choose a calendar date or a date interval.",
+      "summary": "Choose a date or date interval from an overlay calendar.",
       "source_url": "https://fluxui.dev/components/date-picker.md",
       "source_sha256": "b0f51710bb82fb7d11e14b82a4b07ccfaf9fe987fca08ba47392a550042a6e9f",
       "pro": true,
       "note": "references/components/date-picker.md"
     },
+    "datetime-picker": {
+      "name": "Datetime picker",
+      "summary": "Choose a date and time together for a scheduled event.",
+      "source_url": "https://fluxui.dev/components/datetime-picker.md",
+      "source_sha256": "e387fc016f4b209875a2ffff18d19d7d397bb06c15f867e7b6f894d24bab3d5a",
+      "pro": true,
+      "note": "references/components/datetime-picker.md"
+    },
+    "dropdown": {
+      "name": "Dropdown",
+      "summary": "Attach a menu to a trigger.",
+      "source_url": "https://fluxui.dev/components/dropdown.md",
+      "source_sha256": "7b855d632ba9ff4acea18cc5925c8594b2a2a4f75615e3bbcc75c20f5a734de0",
+      "pro": false,
+      "note": "references/components/dropdown.md"
+    },
+    "editor": {
+      "name": "Rich text editor",
+      "summary": "Edit formatted text in a Livewire form.",
+      "source_url": "https://fluxui.dev/components/editor.md",
+      "source_sha256": "9ae46b5ee0cdf8fb0394ac501388171050c1645f2372d463a65a87fc056a822c",
+      "pro": true,
+      "note": "references/components/editor.md"
+    },
+    "field": {
+      "name": "Field",
+      "summary": "Keep a form control, label, help text, and validation error together.",
+      "source_url": "https://fluxui.dev/components/field.md",
+      "source_sha256": "0a2df08da72eed0c94e61905a29370e37b2c91d57beab0e3a9ef75ec08a1ec76",
+      "pro": false,
+      "note": "references/components/field.md"
+    },
+    "file-upload": {
+      "name": "File upload",
+      "summary": "Upload and preview one or more files.",
+      "source_url": "https://fluxui.dev/components/file-upload.md",
+      "source_sha256": "860c5ab92d398120670575153dfaa3d62b9e107d1a18101bd035e09f60530839",
+      "pro": true,
+      "note": "references/components/file-upload.md"
+    },
+    "flag": {
+      "name": "Flag",
+      "summary": "Render a country flag from a region code.",
+      "source_url": "https://fluxui.dev/components/flag.md",
+      "source_sha256": "0b302867c8d6d52ac0c5496ed484128d41f4fb42d0e1f2d3064cd4b3a9aebab2",
+      "pro": false,
+      "note": "references/components/flag.md"
+    },
+    "heading": {
+      "name": "Heading",
+      "summary": "Give sections consistent heading typography.",
+      "source_url": "https://fluxui.dev/components/heading.md",
+      "source_sha256": "0ab108fd29a1706a292ddde115dec288329f3265f94cd17441d281826732120e",
+      "pro": false,
+      "note": "references/components/heading.md"
+    },
+    "icon": {
+      "name": "Icon",
+      "summary": "Add a named icon from the configured icon set.",
+      "source_url": "https://fluxui.dev/components/icon.md",
+      "source_sha256": "2a7807d3e1527578cc4cc4f8df107cba29289efb2975301e3fce33cfe19f733f",
+      "pro": false,
+      "note": "references/components/icon.md"
+    },
+    "input": {
+      "name": "Input",
+      "summary": "Collect short text and other native input values.",
+      "source_url": "https://fluxui.dev/components/input.md",
+      "source_sha256": "2fc521cbc6810825015b1b0bf7bacdc136b757a3ddb281c61e0143c5733a920b",
+      "pro": false,
+      "note": "references/components/input.md"
+    },
+    "kanban": {
+      "name": "Kanban",
+      "summary": "Arrange work cards into named columns.",
+      "source_url": "https://fluxui.dev/components/kanban.md",
+      "source_sha256": "b194eb7c96f75a99434065d1b07e33b500394d843c48173ab8ab55fc096836aa",
+      "pro": true,
+      "note": "references/components/kanban.md"
+    },
+    "modal": {
+      "name": "Modal",
+      "summary": "Present a focused dialog or flyout over the page.",
+      "source_url": "https://fluxui.dev/components/modal.md",
+      "source_sha256": "d1824ecdeb773b65a66e2dca0b77a8b4a2d9eef9d900d3189014270504f244cf",
+      "pro": false,
+      "note": "references/components/modal.md"
+    },
+    "navbar": {
+      "name": "Navbar",
+      "summary": "Build horizontal navigation or a related side navigation list.",
+      "source_url": "https://fluxui.dev/components/navbar.md",
+      "source_sha256": "0603cf320312b45cdb4b7772efee091a0dd6aa0540366ab26418b41c2f6c94e8",
+      "pro": false,
+      "note": "references/components/navbar.md"
+    },
+    "otp-input": {
+      "name": "OTP Input",
+      "summary": "Enter a fixed-length verification code.",
+      "source_url": "https://fluxui.dev/components/otp-input.md",
+      "source_sha256": "5ba7ad46f4c96fa465b5616ce0d273b82c5f8d2441045dac4bee6c0e2e1b85aa",
+      "pro": false,
+      "note": "references/components/otp-input.md"
+    },
+    "pagination": {
+      "name": "Pagination",
+      "summary": "Navigate through a Laravel paginated result set.",
+      "source_url": "https://fluxui.dev/components/pagination.md",
+      "source_sha256": "c8d1e260aba9a971008551a7fee0c169a2cff2cd9bb70ac9e4f7c149a63b49c3",
+      "pro": false,
+      "note": "references/components/pagination.md"
+    },
+    "phone": {
+      "name": "Phone",
+      "summary": "Collect an international telephone number.",
+      "source_url": "https://fluxui.dev/components/phone.md",
+      "source_sha256": "09e1ab1ee9ac4618bd31ff410368ed9f796a41899067c3a8951797a298f7a819",
+      "pro": true,
+      "note": "references/components/phone.md"
+    },
+    "pillbox": {
+      "name": "Pillbox",
+      "summary": "Choose several values shown as removable pills.",
+      "source_url": "https://fluxui.dev/components/pillbox.md",
+      "source_sha256": "7499540e292c4f737633f916a2cd97f17e54766db68ec9afa8e45783710a5bb5",
+      "pro": true,
+      "note": "references/components/pillbox.md"
+    },
+    "popover": {
+      "name": "Popover",
+      "summary": "Show custom floating content from a trigger.",
+      "source_url": "https://fluxui.dev/components/popover.md",
+      "source_sha256": "fbad0788dfe524c4a1076852cf40f2bfdb43b60ced8a39b9f53a6044fcd45f2c",
+      "pro": true,
+      "note": "references/components/popover.md"
+    },
+    "profile": {
+      "name": "Profile",
+      "summary": "Show a compact avatar with an optional name and affordance.",
+      "source_url": "https://fluxui.dev/components/profile.md",
+      "source_sha256": "d9e13fa91055af337e403ebd02e462fd0fd9a46c5ab64df7a4f8168ef3d4ac08",
+      "pro": false,
+      "note": "references/components/profile.md"
+    },
+    "progress": {
+      "name": "Progress",
+      "summary": "Show completion on a measurable scale.",
+      "source_url": "https://fluxui.dev/components/progress.md",
+      "source_sha256": "88006b0acbb2bccea73535d256b3153bcb5728bd98cf5780135dc5817ac68a25",
+      "pro": false,
+      "note": "references/components/progress.md"
+    },
+    "radio": {
+      "name": "Radio",
+      "summary": "Choose exactly one option in a group.",
+      "source_url": "https://fluxui.dev/components/radio.md",
+      "source_sha256": "d788c800adbe225436c268c0d4d0a82c0910559b69bd2489d291dde51c3acecd",
+      "pro": false,
+      "note": "references/components/radio.md"
+    },
+    "select": {
+      "name": "Select",
+      "summary": "Choose from a controlled set of options.",
+      "source_url": "https://fluxui.dev/components/select.md",
+      "source_sha256": "b4fe63955852b7bb201b29845b28e22d89ef69b11a2de52433add4cd2f438960",
+      "pro": false,
+      "note": "references/components/select.md"
+    },
+    "separator": {
+      "name": "Separator",
+      "summary": "Create a visual boundary between regions.",
+      "source_url": "https://fluxui.dev/components/separator.md",
+      "source_sha256": "8e17beced14371aece5c0157c7510857aa53e60d8e3739da713dedbfcd09eb4d",
+      "pro": false,
+      "note": "references/components/separator.md"
+    },
+    "skeleton": {
+      "name": "Skeleton",
+      "summary": "Reserve space while content loads.",
+      "source_url": "https://fluxui.dev/components/skeleton.md",
+      "source_sha256": "51923a828dcdee9d04e9da044e0a478436bdc47d10914c03d3b580b111380169",
+      "pro": false,
+      "note": "references/components/skeleton.md"
+    },
+    "slider": {
+      "name": "Slider",
+      "summary": "Adjust a numeric value by dragging along a track.",
+      "source_url": "https://fluxui.dev/components/slider.md",
+      "source_sha256": "662087341a1ffaf7625cb0a5cc8b59ab2ba417c1cd89fcccaba12115406ef93e",
+      "pro": true,
+      "note": "references/components/slider.md"
+    },
+    "switch": {
+      "name": "Switch",
+      "summary": "Turn a boolean setting on or off.",
+      "source_url": "https://fluxui.dev/components/switch.md",
+      "source_sha256": "aecc43f1abd6906d7446f1fdbb723e51924d6d425b440fe5b7cb6bb3d614df29",
+      "pro": false,
+      "note": "references/components/switch.md"
+    },
+    "table": {
+      "name": "Table",
+      "summary": "Display rows and columns of structured data.",
+      "source_url": "https://fluxui.dev/components/table.md",
+      "source_sha256": "2078d8a3246182d103907ca9f9a75b7a374efd586e17fa61cd4e3fcb57949824",
+      "pro": false,
+      "note": "references/components/table.md"
+    },
+    "tabs": {
+      "name": "Tabs",
+      "summary": "Switch between related panels without leaving the page.",
+      "source_url": "https://fluxui.dev/components/tabs.md",
+      "source_sha256": "facbb3aeea25a8f24a6f1079a0d449d44e681e49d3de1b8a8f711a4cbd972d22",
+      "pro": true,
+      "note": "references/components/tabs.md"
+    },
+    "text": {
+      "name": "Text",
+      "summary": "Render regular copy and links with consistent styling.",
+      "source_url": "https://fluxui.dev/components/text.md",
+      "source_sha256": "950dae6673a7eaec691da485d200e4134596d4797d9ca50f6e7206c1a13860f9",
+      "pro": false,
+      "note": "references/components/text.md"
+    },
+    "textarea": {
+      "name": "Textarea",
+      "summary": "Collect longer free-form text.",
+      "source_url": "https://fluxui.dev/components/textarea.md",
+      "source_sha256": "162c877cf639897b2d361f2c975f37c9afb6f98f9bee3e676e084d3f426ca149",
+      "pro": false,
+      "note": "references/components/textarea.md"
+    },
+    "timeline": {
+      "name": "Timeline",
+      "summary": "Present events or steps in sequence.",
+      "source_url": "https://fluxui.dev/components/timeline.md",
+      "source_sha256": "4401dc0e094912fcd6ec6cd651d8a204cd45bd7c9949d9aeb4aa9d4b3e5cc283",
+      "pro": true,
+      "note": "references/components/timeline.md"
+    },
     "time-picker": {
       "name": "Time picker",
-      "summary": "Choose a clock time for scheduling.",
+      "summary": "Choose one or more clock times.",
       "source_url": "https://fluxui.dev/components/time-picker.md",
       "source_sha256": "64556b020ff16bc17bdf1031a54d5b6e59038f43d6ae2c445db88c3318abbb52",
       "pro": true,
       "note": "references/components/time-picker.md"
+    },
+    "toast": {
+      "name": "Toast",
+      "summary": "Give short-lived feedback after an action.",
+      "source_url": "https://fluxui.dev/components/toast.md",
+      "source_sha256": "040124bace1b6aae17cd35c5a0e0fb799c63f4c2cec324680c112f37a69daeb5",
+      "pro": false,
+      "note": "references/components/toast.md"
+    },
+    "toggle": {
+      "name": "Toggle",
+      "summary": "Offer a compact button-style boolean control.",
+      "source_url": "https://fluxui.dev/components/toggle.md",
+      "source_sha256": "8601a14a542767ffdcdf7e85c33d86a238d8929be0e109122a231fae98ffa761",
+      "pro": false,
+      "note": "references/components/toggle.md"
+    },
+    "tooltip": {
+      "name": "Tooltip",
+      "summary": "Reveal brief supporting text on hover or focus.",
+      "source_url": "https://fluxui.dev/components/tooltip.md",
+      "source_sha256": "773e9b1e8842e2a1b791efd5e7c13f6f560e2108b61236899d5612475a14aa85",
+      "pro": false,
+      "note": "references/components/tooltip.md"
     }
   }
 }

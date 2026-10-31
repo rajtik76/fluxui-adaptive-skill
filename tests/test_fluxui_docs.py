@@ -105,6 +105,29 @@ class DocsTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "no cached or bundled copy"):
             docs.show("datetime-picker", offline=True)
 
+    def test_audit_reports_new_and_changed_components(self):
+        docs, _ = self.docs({INDEX_URL: INDEX, DATE_URL: CHANGED, DATETIME_URL: NEW})
+        result = docs.audit()
+        self.assertEqual(result["unchanged"], 0)
+        self.assertEqual([(item["slug"], item["status"]) for item in result["changes"]], [
+            ("date-picker", "changed"), ("datetime-picker", "new")
+        ])
+
+
+class BundleTest(unittest.TestCase):
+    def test_every_snapshot_component_has_a_usable_note(self):
+        bundled = json.loads((SKILL / "manifest.json").read_text())["components"]
+        self.assertEqual(len(bundled), 52)
+        self.assertEqual(len(list((SKILL / "references" / "components").glob("*.md"))), len(bundled))
+        for slug, entry in bundled.items():
+            with self.subTest(slug=slug):
+                self.assertRegex(entry["source_sha256"], r"^[0-9a-f]{64}$")
+                self.assertEqual(entry["source_url"], f"https://fluxui.dev/components/{slug}.md")
+                note = (SKILL / entry["note"]).read_text()
+                self.assertIn("**Starter:**", note)
+                self.assertIn(entry["source_url"], note)
+                self.assertIn("Flux Pro" if entry["pro"] else "Flux (free)", note)
+
 
 if __name__ == "__main__":
     unittest.main()

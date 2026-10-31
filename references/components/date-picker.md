@@ -1,5 +1,16 @@
 # Date picker
 
-Use a calendar when seeing nearby days helps the user choose. This component supports a single date and a date interval. It is part of Flux Pro.
+- **Availability:** Flux Pro.
+- **Use:** Choose a date or date interval from an overlay calendar.
+- **Main tags:** `flux:date-picker`, `flux:date-picker.input`, `flux:date-picker.button`.
+- **Common props:** `wire:model`, `value`, `type`, `mode`, `min-range`, `max-range`, `min`, `max`, `unavailable`, `open-to`, `force-open-to`, `months`.
 
-For implementation, check the current reference for value format, range binding, limits, localization, and trigger options. A typed date field can be more convenient for dates far from the current month.
+**Starter:**
+
+```blade
+<flux:date-picker wire:model="date" />
+```
+
+**Implementation:** A single date uses `Y-m-d`; `mode="range"` enables intervals. Check limits, unavailable dates, presets, and trigger variants in the live page when needed.
+
+**Current source:** [Flux UI](https://fluxui.dev/components/date-picker.md).

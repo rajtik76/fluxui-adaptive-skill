@@ -34,7 +34,7 @@ def fetch_official(url: str) -> bytes:
     if parsed.scheme != "https" or parsed.hostname != "fluxui.dev":
         raise ValueError(f"Untrusted documentation URL: {url}")
     request = urllib.request.Request(
-        url, headers={"User-Agent": "fluxui-development-prototype/0.1"}
+        url, headers={"User-Agent": "fluxui-adaptive-skill/1.0"}
     )
     with urllib.request.urlopen(request, timeout=12) as response:
         final = urllib.parse.urlsplit(response.url)
@@ -121,6 +121,28 @@ class Docs:
                 }
             )
         return {"index_source": source, "index_error": error, "components": entries}
+
+    def audit(self) -> dict:
+        """Compare every live component with the bundled snapshot for maintainers."""
+        indexed = parse_index(self.fetch(INDEX_URL))
+        changes = []
+        unchanged = 0
+        for slug, entry in sorted(indexed.items()):
+            data = self.fetch(entry["url"])
+            data.decode("utf-8")
+            digest = sha256(data)
+            bundled = self.bundled.get(slug)
+            if bundled is None:
+                status = "new"
+            elif digest != bundled["source_sha256"] or entry["url"] != bundled["source_url"]:
+                status = "changed"
+            else:
+                unchanged += 1
+                continue
+            changes.append({"slug": slug, "status": status, "url": entry["url"], "source_sha256": digest})
+        for slug in sorted(self.bundled.keys() - indexed.keys()):
+            changes.append({"slug": slug, "status": "removed", "url": self.bundled[slug]["source_url"]})
+        return {"checked_at": datetime.now(timezone.utc).isoformat(), "unchanged": unchanged, "changes": changes}
 
     def show(self, slug: str, offline: bool = False, force_live: bool = False) -> dict:
         if not re.fullmatch(r"[a-z0-9-]+", slug):
@@ -211,14 +233,19 @@ def main() -> int:
         command = sub.add_parser(name)
         command.add_argument("--offline", action="store_true", help="Use cached or bundled data only")
         command.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
+    audit = sub.add_parser("audit", help="Compare all live pages with the bundled manifest")
+    audit.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
     sub.choices["show"].add_argument("slug")
     sub.choices["show"].add_argument("--live", action="store_true", help="Show the full page even when the bundled note matches")
     args = parser.parse_args()
     docs = Docs()
     try:
-        result = docs.catalog(offline=args.offline) if args.command == "catalog" else docs.show(
-            args.slug, offline=args.offline, force_live=args.live
-        )
+        if args.command == "catalog":
+            result = docs.catalog(offline=args.offline)
+        elif args.command == "show":
+            result = docs.show(args.slug, offline=args.offline, force_live=args.live)
+        else:
+            result = docs.audit()
     except (OSError, ValueError, UnicodeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
@@ -230,6 +257,10 @@ def main() -> int:
             print(f"Index fetch failed: {result['index_error']}")
         for item in result["components"]:
             print(f"- {item['name']} ({item['slug']}) [{item['bundle_status']}]: {item['description']}")
+    elif args.command == "audit":
+        print(f"Unchanged: {result['unchanged']}; changes: {len(result['changes'])}")
+        for item in result["changes"]:
+            print(f"- {item['slug']}: {item['status']} ({item['url']})")
     else:
         print(
             f"{result['slug']}: {result['content_source']}, {result['verification']}, "
