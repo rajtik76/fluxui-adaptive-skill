@@ -1,0 +1,49 @@
+name: Sync Flux UI documentation
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Update bundled pages from the live site
+        run: python3 scripts/fluxui_docs.py sync --json > "$RUNNER_TEMP/fluxui-sync.json"
+      - name: Describe changes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          temp = Path(os.environ['RUNNER_TEMP'])
+          report = json.loads((temp / 'fluxui-sync.json').read_text())
+          lines = ['Weekly sync of the bundled Flux UI documentation with https://fluxui.dev.', '']
+          for item in report['changes']:
+              lines.append(f"- **{item['status']}**: [{item['slug']}]({item['url']})")
+          notes = [item['slug'] for item in report['changes'] if item.get('note_review')]
+          new = [item['slug'] for item in report['changes'] if item['status'] == 'new']
+          if notes:
+              lines += ['', 'Review the short notes for: ' + ', '.join(f'`{slug}`' for slug in notes) + '.']
+          if new:
+              lines += ['', 'New pages have no short note yet: ' + ', '.join(f'`{slug}`' for slug in new) + '.']
+          (temp / 'fluxui-pr.md').write_text('\n'.join(lines) + '\n')
+          PY
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: fluxui-docs-sync
+          delete-branch: true
+          commit-message: 'chore(docs): sync Flux UI documentation'
+          title: 'chore(docs): sync Flux UI documentation'
+          body-path: ${{ runner.temp }}/fluxui-pr.md
