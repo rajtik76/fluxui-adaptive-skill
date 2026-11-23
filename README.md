@@ -7,7 +7,7 @@ An **unofficial agent skill** for Livewire Flux UI, including Flux Pro. It build
 1. The agent reads the current [Flux UI `llms.txt`](https://fluxui.dev/llms.txt) and merges it with `manifest.json`. Newly released guides, layouts, and components are available immediately.
 2. Short notes in `references/` help the agent choose a component or variant without reading every page.
 3. For implementation, the agent reads the full official Markdown page bundled in `references/source/`. When the installed Flux release is newer than the bundle, or the page lacks a feature, it reads the live page instead.
-4. An optional Python helper compares live pages with the bundle by SHA-256 and caches newer pages privately for offline use.
+4. An optional Python helper compares live pages with the bundle by SHA-256 and privately caches pages that differ from the bundle for offline use.
 
 ## Install
 

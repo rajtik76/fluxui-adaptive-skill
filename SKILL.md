@@ -1,7 +1,7 @@
 ---
 name: fluxui-adaptive
 description: Build Livewire interfaces with Flux UI and Flux Pro using bundled official documentation, a live index for new pages, and short notes for choosing components. Use for any flux:* Blade markup, Flux setup, theming, or layouts.
-license: MIT
+license: MIT, except references/source/ (official Flux UI documentation, see LICENSE.md)
 ---
 
 # Flux UI development
@@ -12,7 +12,7 @@ Adapted from [Laravel Boost's Flux UI development skill](https://github.com/lara
 
 - `manifest.json` lists every guide, layout, and component with a summary, Pro status, and the bundle `snapshot` time.
 - `references/source/` holds the official Flux UI Markdown pages, unmodified, as of that snapshot. These are the source of truth for props, slots, and values.
-- `references/{components,guides,layouts}/` hold short notes for choosing a component or variant. They do not list exact APIs.
+- `references/{components,guides,layouts}/` hold short notes for choosing a component or variant. They are not a complete API reference.
 
 ## Workflow
 
@@ -25,7 +25,7 @@ Check `composer.lock` for `livewire/flux-pro` before using a Pro component or a 
 
 ## Optional helper
 
-With a shell and Python 3.10+ (standard library only), the helper fetches the live page, compares its SHA-256 with the bundle, and caches pages newer than the snapshot:
+With a shell and Python 3.10+ (standard library only), the helper fetches the live page, compares its SHA-256 with the bundle, and caches pages that differ from the bundle:
 
 ```text
 python3 <skill-dir>/scripts/fluxui_docs.py catalog          # live index merged with the bundle
