@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Show custom floating content from a trigger.
 - **Main tags:** `flux:dropdown`, `flux:popover`.
-- **Common props:** `position`, `align`, `hover`, `wire:model`.
 
 **Starter:**
 
@@ -26,11 +25,4 @@
 - **Feedback** — tags `flux:dropdown`, `flux:button`, `flux:popover`, `flux:radio.group`, `flux:radio`.
 - **Event details** — tags `flux:dropdown`, `flux:heading`, `flux:text`, `flux:popover`, `flux:radio.group`; settings `position="bottom center"`.
 
-## Component API
-
-- **`flux:dropdown`** — props: `position` (values `top`, `right`, `bottom`, `left`), `align` (values `start`, `center`, `end`), `hover`, `wire:model`.
-- **`flux:popover`** — props: `class`.
-
-**Implementation:** Wrap the trigger and `flux:popover` in `flux:dropdown`. Configure placement or hover behavior on the dropdown.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/popover.md).
+**Full page:** `references/source/components/popover.md` (bundled) or [live](https://fluxui.dev/components/popover.md). Read it for exact props, slots, and values.

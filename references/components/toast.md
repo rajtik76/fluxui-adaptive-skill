@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Give short-lived feedback after an action.
 - **Main tags:** `flux:toast`, `flux:toast.group`.
-- **Common props:** `position`, `invert`.
 
 **Starter:**
 
@@ -29,11 +28,4 @@
 - **Permanent** — Use zero duration to keep a toast visible until dismissed.
 - **Stack** — tags `flux:toast.group`, `flux:toast`.
 
-## Component API
-
-- **`flux:toast`** — props: `position` (values `bottom end`, `bottom center`, `bottom start`, `top end`, `top center`, `top start`), `invert` (default `false`).
-- **`flux:toast.group`** — props: `position` (values `bottom end`, `bottom center`, `bottom start`, `top end`, `top center`, `top start`), `expanded` (default `false`).
-
-**Implementation:** Mount `flux:toast` in the layout and trigger messages via `Flux::toast()` or the supported JavaScript API. Variants, position, and duration are configurable.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/toast.md).
+**Full page:** `references/source/components/toast.md` (bundled) or [live](https://fluxui.dev/components/toast.md). Read it for exact props, slots, and values.

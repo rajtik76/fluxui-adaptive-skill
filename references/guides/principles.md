@@ -11,4 +11,4 @@ Use these principles when choosing between a Flux component, composing smaller F
 
 These are design preferences, not a substitute for a component's documented API.
 
-**Current source:** [Flux UI principles](https://fluxui.dev/docs/principles.md).
+**Full page:** `references/source/docs/principles.md` (bundled) or [live](https://fluxui.dev/docs/principles.md).

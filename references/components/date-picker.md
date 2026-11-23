@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Choose a date or date interval from an overlay calendar.
 - **Main tags:** `flux:date-picker`, `flux:date-picker.input`, `flux:date-picker.button`.
-- **Common props:** `wire:model`, `value`, `type`, `mode`, `min-range`, `max-range`, `min`, `max`, `unavailable`, `open-to`, `force-open-to`, `months`.
 
 **Starter:**
 
@@ -43,12 +42,4 @@
 - **Available methods** — `DateRange` extends `CarbonPeriod` and exposes its methods.
 - **Range presets** — The bound range can carry a preset key alongside its dates.
 
-## Component API
-
-- **`flux:date-picker`** — props: `wire:model`, `value`, `type` (values `button`, `input`), `mode` (values `single`, `range`), `min-range`, `max-range`, `min`, `max`, `unavailable`, `open-to`, `force-open-to` (default `false`), `months` (default `1`), `label`, `description`, `description:trailing`, `badge`, `placeholder`, `size` (values `sm`, `default`, `lg`, `xl`, `2xl`), `start-day` (values `0`, `6`), `week-numbers`, `selectable-header`, `with-today`, `with-inputs` (values `custom`, `native`), `with-confirmation`, `with-presets`, `presets` (default `today yesterday thisWeek last7Days thisMonth yearToDate allTime`), `clearable`, `disabled`, `invalid`, `locale`; slots: `trigger`.
-- **`flux:date-picker.input`** — props: `variant` (values `custom`, `native`), `label`, `description`, `placeholder`, `clearable`, `disabled`, `invalid`, `size` (values `sm`, `xs`).
-- **`flux:date-picker.button`** — props: `placeholder`, `size` (values `sm`, `xs`), `clearable`, `disabled`, `invalid`.
-
-**Implementation:** A single date uses `Y-m-d`; `mode="range"` enables intervals. Check limits, unavailable dates, presets, and trigger variants in the live page when needed.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/date-picker.md).
+**Full page:** `references/source/components/date-picker.md` (bundled) or [live](https://fluxui.dev/components/date-picker.md). Read it for exact props, slots, and values.

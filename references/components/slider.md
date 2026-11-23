@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Adjust a numeric value by dragging along a track.
 - **Main tags:** `flux:slider`, `flux:slider.tick`.
-- **Common props:** `range`, `min`, `max`, `step`, `big-step`, `min-steps-between`, `tick:position`, `track:class`, `thumb:class`.
 
 **Starter:**
 
@@ -33,11 +32,4 @@
 - **Displaying values** — tags `flux:field`, `flux:label`, `flux:slider`; settings `range`, `min="0"`, `max="990"`, `step="10"`, `min-steps-between="10"`, `big-step="100"`.
 - **Custom styles** — tags `flux:slider`; settings `track:class="h-5"`, `thumb:class="size-5"`.
 
-## Component API
-
-- **`flux:slider`** — props: `range`, `min`, `max`, `step`, `big-step`, `min-steps-between`, `tick:position` (values `below`, `inside`), `track:class`, `thumb:class`.
-- **`flux:slider.tick`** — props: `value`, `variant` (values `line`, `dot`).
-
-**Implementation:** Bind with Livewire; set `min`, `max`, and `step`. Range, ticks, and an accompanying input are available for more precise use.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/slider.md).
+**Full page:** `references/source/components/slider.md` (bundled) or [live](https://fluxui.dev/components/slider.md). Read it for exact props, slots, and values.

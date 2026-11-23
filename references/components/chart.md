@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Visualize Livewire data with Flux chart primitives.
 - **Main tags:** `flux:chart`, `flux:chart.svg`, `flux:chart.line`, `flux:chart.area`, `flux:chart.point`, `flux:chart.pie`.
-- **Common props:** `wire:model`, `value`, `horizontal`, `class`.
 
 **Starter:**
 
@@ -50,27 +49,4 @@
 - **Formatting numbers** — tags `flux:chart.axis`; settings `axis="y"`.
 - **Formatting dates** — tags `flux:chart.axis`; settings `axis="x"`, `field="date"`.
 
-## Component API
-
-- **`flux:chart`** — props: `wire:model`, `value`, `horizontal`; CSS: `class`.
-- **`flux:chart.line`** — props: `field`, `curve` (values `smooth`, `none`); CSS: `class`.
-- **`flux:chart.area`** — props: `field`, `curve` (values `smooth`, `none`); CSS: `class`.
-- **`flux:chart.point`** — props: `field`; CSS: `class`.
-- **`flux:chart.pie`** — props: `field` (default `value`), `label-field`, `inner-radius` (default `0`), `radius` (default `0`); CSS: `class`.
-- **`flux:chart.axis`** — props: `axis` (values `x`, `y`), `field`, `format`.
-- **`flux:chart.axis.mark`** — props: `position` (values `top`, `bottom`, `left`, `right`); CSS: `class`.
-- **`flux:chart.axis.line`** — CSS: `class`.
-- **`flux:chart.axis.grid`** — CSS: `class`.
-- **`flux:chart.axis.tick`** — props: `format`; CSS: `class`.
-- **`flux:chart.zero-line`** — CSS: `class`.
-- **`flux:chart.tooltip`** — props: `field`, `format`.
-- **`flux:chart.tooltip.heading`** — props: `field`, `format`.
-- **`flux:chart.tooltip.value`** — props: `field`, `format`, `label`, `label-field`.
-- **`flux:chart.tooltip.indicator`** — CSS: `class`.
-- **`flux:chart.cursor`** — CSS: `class`.
-- **`flux:chart.summary.value`** — props: `field`, `fallback`, `format`.
-- **`flux:chart.legend`** — props: `field`, `label`, `format`.
-
-**Implementation:** Bind an array of named data points; nest `flux:chart.svg` and a line, area, bar, or other plot. Plot `field` names must match data keys.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/chart.md).
+**Full page:** `references/source/components/chart.md` (bundled) or [live](https://fluxui.dev/components/chart.md). Read it for exact props, slots, and values.

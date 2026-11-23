@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Collect longer free-form text.
 - **Main tags:** `flux:textarea`.
-- **Common props:** `wire:model`, `placeholder`, `label`, `description`, `description:trailing`, `badge`, `rows`, `resize`, `invalid`.
 
 **Starter:**
 
@@ -24,10 +23,4 @@
 - **Auto-sizing textarea** — tags `flux:textarea`; settings `rows="auto"`.
 - **Configure resize** — tags `flux:textarea`; settings `resize="vertical"`, `resize="none"`, `resize="horizontal"`, `resize="both"`.
 
-## Component API
-
-- **`flux:textarea`** — props: `wire:model`, `placeholder`, `label`, `description`, `description:trailing`, `badge`, `rows` (default `4`), `resize` (values `vertical`, `horizontal`, `both`, `none`), `invalid`.
-
-**Implementation:** Bind with Livewire; use rows, resize, or auto-sizing behavior to fit the expected length.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/textarea.md).
+**Full page:** `references/source/components/textarea.md` (bundled) or [live](https://fluxui.dev/components/textarea.md). Read it for exact props, slots, and values.

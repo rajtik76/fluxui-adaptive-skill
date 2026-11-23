@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Show completion on a measurable scale.
 - **Main tags:** `flux:progress`.
-- **Common props:** `value`, `max`, `color`.
 
 **Starter:**
 
@@ -26,10 +25,4 @@
 - **Display value** — tags `flux:field`, `flux:label`, `flux:progress`.
 - **Controlled** — tags `flux:slider`, `flux:progress`.
 
-## Component API
-
-- **`flux:progress`** — props: `value` (default `0`), `max` (default `100`), `color`.
-
-**Implementation:** Set `value` and optionally `max`; label, color, and height can clarify what is progressing.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/progress.md).
+**Full page:** `references/source/components/progress.md` (bundled) or [live](https://fluxui.dev/components/progress.md). Read it for exact props, slots, and values.

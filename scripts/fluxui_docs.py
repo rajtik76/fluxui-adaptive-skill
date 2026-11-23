@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Discover Flux v2 documentation and select reviewed, live, or cached guidance."""
+"""Discover Flux v2 documentation and select bundled, live, or cached pages."""
 
 from __future__ import annotations
 
@@ -23,6 +23,7 @@ RESOURCE_LINE = re.compile(
     r"^- \[([^]]+)\]\((https://fluxui\.dev/(components|docs|layouts)/([a-z0-9-]+)\.md)\)(?:\s+-\s+(.*))?$"
 )
 RESOURCE_KIND = {"components": "components", "docs": "guides", "layouts": "layouts"}
+KINDS = ("components", "guides", "layouts")
 Fetch = Callable[[str], bytes]
 
 
@@ -30,12 +31,16 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
 def fetch_official(url: str) -> bytes:
     parsed = urllib.parse.urlsplit(url)
     if parsed.scheme != "https" or parsed.hostname != "fluxui.dev":
         raise ValueError(f"Untrusted documentation URL: {url}")
     request = urllib.request.Request(
-        url, headers={"User-Agent": "fluxui-adaptive-skill/1.0"}
+        url, headers={"User-Agent": "fluxui-adaptive-skill/2.0"}
     )
     with urllib.request.urlopen(request, timeout=12) as response:
         final = urllib.parse.urlsplit(response.url)
@@ -75,6 +80,10 @@ def parse_index(data: bytes) -> dict[str, dict[str, str]]:
     return entries
 
 
+def is_pro(markdown: str) -> bool:
+    return markdown.lstrip().startswith("> [!PRO]")
+
+
 def pro_sections(markdown: str) -> list[str]:
     """Find sections marked Pro inside an otherwise free component page."""
     current = None
@@ -82,9 +91,14 @@ def pro_sections(markdown: str) -> list[str]:
     for line in markdown.splitlines():
         if line.startswith("## "):
             current = line[3:].strip()
-        elif line == "> [!PRO]" and current and current not in sections:
+        elif line.strip() == "> [!PRO]" and current and current not in sections:
             sections.append(current)
     return sections
+
+
+def source_path(url: str) -> str:
+    """Map an official page URL to its bundled copy, mirroring the site path."""
+    return "references/source/" + urllib.parse.urlsplit(url).path.lstrip("/")
 
 
 class Docs:
@@ -95,16 +109,20 @@ class Docs:
         fetch: Fetch = fetch_official,
     ) -> None:
         self.root = root
-        self.manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
-        self.bundled = {
-            slug: {**entry, "kind": kind}
-            for kind in ("components", "guides", "layouts")
-            for slug, entry in self.manifest.get(kind, {}).items()
-        }
+        self.manifest_path = root / "manifest.json"
+        self.manifest = json.loads(self.manifest_path.read_text(encoding="utf-8"))
         self.cache_dir = cache_dir or Path(
-            os.environ.get("FLUXUI_SKILL_CACHE", Path.home() / ".cache" / "fluxui-development")
+            os.environ.get("FLUXUI_SKILL_CACHE", Path.home() / ".cache" / "fluxui-adaptive")
         )
         self.fetch = fetch
+
+    @property
+    def bundled(self) -> dict[str, dict]:
+        return {
+            slug: {**entry, "kind": kind}
+            for kind in KINDS
+            for slug, entry in self.manifest.get(kind, {}).items()
+        }
 
     def _index(self, offline: bool) -> tuple[dict[str, dict[str, str]], str, str | None]:
         error = None
@@ -126,127 +144,201 @@ class Docs:
 
     def catalog(self, offline: bool = False) -> dict:
         indexed, source, error = self._index(offline)
-        entries = {"components": [], "guides": [], "layouts": []}
-        for slug in sorted(indexed.keys() | self.bundled.keys()):
+        bundled = self.bundled
+        entries: dict[str, list] = {kind: [] for kind in KINDS}
+        for slug in sorted(indexed.keys() | bundled.keys()):
             live = indexed.get(slug)
-            bundled = self.bundled.get(slug)
-            kind = live["kind"] if live else bundled["kind"]
+            local = bundled.get(slug)
+            kind = live["kind"] if live else local["kind"]
             entries[kind].append(
                 {
                     "slug": slug,
-                    "name": live["name"] if live else bundled["name"],
-                    "description": live["description"] if live else bundled["summary"],
-                    "url": live["url"] if live else bundled["source_url"],
-                    "bundle_status": "bundled" if bundled else "new-to-skill",
+                    "name": live["name"] if live else local["name"],
+                    "description": live["description"] if live else local["summary"],
+                    "url": live["url"] if live else local["source_url"],
+                    "bundle_status": "bundled" if local else "new-to-skill",
                     "index_status": "listed" if live else "bundled-only",
-                    "pro": bundled["pro"] if bundled else None,
-                    "pro_sections": bundled.get("pro_sections", []) if bundled else [],
+                    "pro": local["pro"] if local else None,
+                    "pro_sections": local.get("pro_sections", []) if local else [],
                     "kind": kind,
                 }
             )
-        return {"index_source": source, "index_error": error, **entries}
+        return {
+            "index_source": source,
+            "index_error": error,
+            "snapshot": self.manifest.get("snapshot"),
+            **entries,
+        }
 
-    def audit(self) -> dict:
-        """Compare every live documentation page with the bundled snapshot."""
+    def _compare(self) -> tuple[dict, dict[str, bytes], list[dict], int]:
         indexed = parse_index(self.fetch(INDEX_URL))
+        bundled = self.bundled
+        pages: dict[str, bytes] = {}
         changes = []
         unchanged = 0
         for slug, entry in sorted(indexed.items()):
             data = self.fetch(entry["url"])
             data.decode("utf-8")
+            pages[slug] = data
             digest = sha256(data)
-            bundled = self.bundled.get(slug)
-            if bundled is None:
+            local = bundled.get(slug)
+            if local is None:
                 status = "new"
-            elif digest != bundled["source_sha256"] or entry["url"] != bundled["source_url"]:
+            elif not local.get("source") or not (self.root / local["source"]).is_file():
+                status = "missing"
+            elif (
+                digest != local["source_sha256"]
+                or entry["url"] != local["source_url"]
+                or entry["kind"] != local["kind"]
+            ):
                 status = "changed"
             else:
                 unchanged += 1
                 continue
             changes.append({"slug": slug, "status": status, "url": entry["url"], "source_sha256": digest})
-        for slug in sorted(self.bundled.keys() - indexed.keys()):
-            changes.append({"slug": slug, "status": "removed", "url": self.bundled[slug]["source_url"]})
-        return {"checked_at": datetime.now(timezone.utc).isoformat(), "unchanged": unchanged, "changes": changes}
+        for slug in sorted(bundled.keys() - indexed.keys()):
+            changes.append({"slug": slug, "status": "removed", "url": bundled[slug]["source_url"]})
+        return indexed, pages, changes, unchanged
 
-    def show(self, slug: str, offline: bool = False, force_live: bool = False) -> dict:
+    def audit(self) -> dict:
+        """Compare every live documentation page with the bundled snapshot."""
+        _, _, changes, unchanged = self._compare()
+        return {"checked_at": now(), "unchanged": unchanged, "changes": changes}
+
+    def sync(self) -> dict:
+        """Bring bundled pages and the manifest up to date with the live site."""
+        indexed, pages, changes, unchanged = self._compare()
+        if not changes:
+            return {"synced_at": self.manifest.get("snapshot"), "unchanged": unchanged, "changes": []}
+        bundled = self.bundled
+        for change in changes:
+            slug = change["slug"]
+            local = bundled.get(slug)
+            if local is not None:
+                del self.manifest[local["kind"]][slug]
+            if change["status"] == "removed":
+                for key in ("source", "note"):
+                    if local.get(key):
+                        (self.root / local[key]).unlink(missing_ok=True)
+                continue
+            live = indexed[slug]
+            data = pages[slug]
+            text = data.decode("utf-8")
+            path = source_path(live["url"])
+            if local is not None and local.get("source") and local["source"] != path:
+                (self.root / local["source"]).unlink(missing_ok=True)
+            atomic_write(self.root / path, data)
+            entry = {
+                "name": local["name"] if local else live["name"],
+                "summary": local["summary"] if local else live["description"],
+                "source_url": live["url"],
+                "source_sha256": sha256(data),
+                "source": path,
+                "pro": is_pro(text),
+            }
+            if live["kind"] == "components":
+                sections = pro_sections(text)
+                if sections and not entry["pro"]:
+                    entry["pro_sections"] = sections
+            if local and local.get("note"):
+                entry["note"] = local["note"]
+                change["note_review"] = True
+            self.manifest.setdefault(live["kind"], {})[slug] = entry
+        for kind in KINDS:
+            self.manifest[kind] = dict(sorted(self.manifest.get(kind, {}).items()))
+        self.manifest["snapshot"] = now()
+        atomic_write(
+            self.manifest_path,
+            (json.dumps(self.manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),
+        )
+        return {"synced_at": self.manifest["snapshot"], "unchanged": unchanged, "changes": changes}
+
+    def _snapshot_time(self) -> float:
+        snapshot = self.manifest.get("snapshot")
+        return datetime.fromisoformat(snapshot).timestamp() if snapshot else 0.0
+
+    def brief(self, slug: str) -> dict:
+        """Return the short routing note for a bundled page, without network access."""
+        local = self.bundled.get(slug)
+        if local is None:
+            raise ValueError(f"No bundled page for {slug}; use show to read the live page")
+        if not local.get("note"):
+            raise ValueError(f"{slug} has no short note; use show for the full page")
+        return {
+            "slug": slug,
+            "kind": local["kind"],
+            "url": local["source_url"],
+            "source": local["source"],
+            "pro": local["pro"],
+            "pro_sections": local.get("pro_sections", []),
+            "content": (self.root / local["note"]).read_text(encoding="utf-8"),
+        }
+
+    def show(self, slug: str, offline: bool = False) -> dict:
         if not re.fullmatch(r"[a-z0-9-]+", slug):
             raise ValueError("Documentation slug must contain only lowercase letters, digits, and hyphens")
-        catalog = self.catalog(offline=offline)
-        entry = next((item for kind in ("components", "guides", "layouts") for item in catalog[kind] if item["slug"] == slug), None)
-        if entry is None:
-            raise ValueError(f"Unknown documentation page: {slug}")
-        bundled = self.bundled.get(slug)
-        cache_path = self.cache_dir / entry["kind"] / f"{slug}.md"
-        remote = None
+        local = self.bundled.get(slug)
+        index_source = None
+        if local is not None:
+            kind, url = local["kind"], local["source_url"]
+        else:
+            catalog = self.catalog(offline=offline)
+            index_source = catalog["index_source"]
+            entry = next((item for k in KINDS for item in catalog[k] if item["slug"] == slug), None)
+            if entry is None:
+                raise ValueError(f"Unknown documentation page: {slug}")
+            kind, url = entry["kind"], entry["url"]
+        cache_path = self.cache_dir / kind / f"{slug}.md"
+
         fetch_error = None
         if not offline:
             try:
-                remote = self.fetch(entry["url"])
-                remote.decode("utf-8")
-                atomic_write(cache_path, remote)
+                remote = self.fetch(url)
+                text = remote.decode("utf-8")
+                digest = sha256(remote)
+                match = local is not None and digest == local["source_sha256"]
+                if not match:
+                    atomic_write(cache_path, remote)
+                return self._result(
+                    slug, kind, url, text, "bundled" if match else "live",
+                    "matched" if match else "changed" if local else "new",
+                    digest, index_source, None,
+                )
             except (OSError, ValueError, UnicodeError) as exc:
                 fetch_error = str(exc)
-        if remote is not None:
-            digest = sha256(remote)
-            remote_doc = remote.decode("utf-8")
-            match = bundled is not None and digest == bundled["source_sha256"]
-            if match and not force_live:
-                content = (self.root / bundled["note"]).read_text(encoding="utf-8")
-                content_source = "bundled"
-            else:
-                content = remote_doc
-                content_source = "live"
-            return self._result(
-                slug, entry, content, content_source,
-                "matched" if match else "changed" if bundled else "new",
-                digest, remote_doc.startswith("> [!PRO]"),
-                catalog["index_source"], None, pro_sections(remote_doc),
-            )
 
-        if cache_path.exists():
+        # Offline: a cached page fetched after the snapshot is newer than the bundle.
+        if cache_path.exists() and (local is None or cache_path.stat().st_mtime > self._snapshot_time()):
             cached = cache_path.read_bytes()
-            content = cached.decode("utf-8")
-            digest = sha256(cached)
-            match = bundled is not None and digest == bundled["source_sha256"]
-            if match and not force_live:
-                content = (self.root / bundled["note"]).read_text(encoding="utf-8")
-                content_source = "bundled"
-                pro = bundled["pro"]
-            else:
-                content_source = "cache"
-                pro = content.startswith("> [!PRO]")
             return self._result(
-                slug, entry, content, content_source, "unverified", digest,
-                pro, catalog["index_source"], fetch_error, pro_sections(cached.decode("utf-8")),
+                slug, kind, url, cached.decode("utf-8"), "cache", "unverified",
+                sha256(cached), index_source, fetch_error,
             )
-
-        if bundled:
-            content = (self.root / bundled["note"]).read_text(encoding="utf-8")
+        if local is not None:
+            text = (self.root / local["source"]).read_text(encoding="utf-8")
             return self._result(
-                slug, entry, content, "bundled", "unverified",
-                bundled["source_sha256"], bundled["pro"],
-                catalog["index_source"], fetch_error, bundled.get("pro_sections", []),
+                slug, kind, url, text, "bundled", "unverified",
+                local["source_sha256"], index_source, fetch_error,
             )
         raise ValueError(f"No documentation for {slug}: live page unavailable and no cached or bundled copy")
 
-    @staticmethod
     def _result(
-        slug: str, entry: dict, content: str, content_source: str,
-        verification: str, digest: str, pro: bool, index_source: str,
-        fetch_error: str | None, pro_only_sections: list[str],
+        self, slug: str, kind: str, url: str, content: str, content_source: str,
+        verification: str, digest: str, index_source: str | None, fetch_error: str | None,
     ) -> dict:
         return {
             "slug": slug,
-            "kind": entry["kind"],
-            "url": entry["url"],
+            "kind": kind,
+            "url": url,
             "content_source": content_source,
             "verification": verification,
             "index_source": index_source,
+            "snapshot": self.manifest.get("snapshot"),
             "source_sha256": digest,
-            "pro": pro,
-            "pro_sections": pro_only_sections,
+            "pro": is_pro(content),
+            "pro_sections": pro_sections(content) if kind == "components" else [],
             "fetch_error": fetch_error,
-            "checked_at": datetime.now(timezone.utc).isoformat() if verification != "unverified" else None,
+            "checked_at": now() if verification != "unverified" else None,
             "content": content,
         }
 
@@ -254,46 +346,59 @@ class Docs:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("catalog", "show"):
-        command = sub.add_parser(name)
-        command.add_argument("--offline", action="store_true", help="Use cached or bundled data only")
+    commands = {
+        "catalog": "List bundled and live pages",
+        "show": "Print the full official page, live when reachable",
+        "brief": "Print the short bundled note for a page",
+        "audit": "Compare all live pages with the bundle",
+        "sync": "Update bundled pages and the manifest from the live site",
+    }
+    for name, help_text in commands.items():
+        command = sub.add_parser(name, help=help_text)
         command.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
-    audit = sub.add_parser("audit", help="Compare all live pages with the bundled manifest")
-    audit.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
-    sub.choices["show"].add_argument("slug")
-    sub.choices["show"].add_argument("--live", action="store_true", help="Show the full page even when the bundled note matches")
+        if name in ("show", "brief"):
+            command.add_argument("slug")
+        if name in ("catalog", "show"):
+            command.add_argument("--offline", action="store_true", help="Use cached or bundled data only")
     args = parser.parse_args()
     docs = Docs()
     try:
         if args.command == "catalog":
             result = docs.catalog(offline=args.offline)
         elif args.command == "show":
-            result = docs.show(args.slug, offline=args.offline, force_live=args.live)
-        else:
+            result = docs.show(args.slug, offline=args.offline)
+        elif args.command == "brief":
+            result = docs.brief(args.slug)
+        elif args.command == "audit":
             result = docs.audit()
+        else:
+            result = docs.sync()
     except (OSError, ValueError, UnicodeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     elif args.command == "catalog":
-        print(f"Index: {result['index_source']}")
+        print(f"Index: {result['index_source']}; bundle snapshot: {result['snapshot']}")
         if result["index_error"]:
             print(f"Index fetch failed: {result['index_error']}")
         for kind in ("guides", "layouts", "components"):
             print(f"{kind.title()}:")
             for item in result[kind]:
                 print(f"- {item['name']} ({item['slug']}) [{item['bundle_status']}]: {item['description']}")
-    elif args.command == "audit":
+    elif args.command in ("audit", "sync"):
         print(f"Unchanged: {result['unchanged']}; changes: {len(result['changes'])}")
         for item in result["changes"]:
             print(f"- {item['slug']}: {item['status']} ({item['url']})")
+    elif args.command == "brief":
+        print(f"{result['slug']}: bundled note; full page: {result['source']}")
+        print(result["content"])
     else:
-        tier = "Pro" if result["pro"] else "Free with Pro variants" if result["pro_sections"] else "Free"
+        tier = "Pro" if result["pro"] else "Free with Pro sections" if result["pro_sections"] else "Free"
         category = result["kind"] if result["kind"] != "components" else f"component, {tier}"
         print(
             f"{result['slug']}: {result['content_source']}, {result['verification']}, "
-            f"{category}, index={result['index_source']}"
+            f"{category}, snapshot={result['snapshot']}"
         )
         if result["fetch_error"]:
             print(f"Live fetch failed: {result['fetch_error']}")

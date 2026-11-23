@@ -1,0 +1,298 @@
+# Toast
+
+A message that provides feedback to users about an action or event, often temporary and dismissible.
+
+To use the Toast component from Livewire, you must include it somewhere on the page; often in your layout file:
+
+```blade
+<body>
+    <!-- ... -->
+
+    <flux:toast />
+</body>
+```
+
+If you are using `wire:navigate` to navigate between pages, you may want to persist the toast component so that toast messages don't suddenly disappear when navigating away from the page.
+
+```blade
+<body>
+    <!-- ... -->
+
+    @persist('toast')
+        <flux:toast />
+    @endpersist
+</body>
+```
+
+Once the toast component is present on the page, you can use the `Flux::toast()` method to trigger a toast message from your Livewire components:
+
+```php
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+use Flux\Flux;
+
+class EditPost extends Component
+{
+    public function save()
+    {
+        // ...
+
+        Flux::toast('Your changes have been saved.');
+    }
+}
+```
+
+You can also trigger a toast from Alpine directly using Flux's magic methods:
+
+```html
+<button x-on:click="$flux.toast('Your changes have been saved.')">
+    Save changes
+</button>
+```
+
+Or you can use the `window.Flux` global object to trigger a toast from any JavaScript in your application:
+
+```html
+{{-- This verbatim and script need to be on the same line --}}
+<script>
+    let button = document.querySelector('...')
+
+    button.addEventListener('alpine:init', () => {
+        Flux.toast('Your changes have been saved.')
+    })
+</script>
+```
+
+Both `$flux` and `window.Flux` support the following method parameter signatures:
+
+```javascript
+Flux.toast('Your changes have been saved.')
+
+// Or...
+
+Flux.toast({
+    heading: 'Changes saved',
+    text: 'Your changes have been saved.',
+    variant: 'success',
+})
+```
+
+## With heading
+
+Use a heading to provide additional context for the toast.
+
+```php
+Flux::toast(
+    heading: 'Changes saved.',
+    text: 'You can always update this in your settings.',
+);
+```
+
+## Variants
+
+Use the `variant` prop to change the visual style of the toast.
+
+```php
+Flux::toast(variant: 'success', ...);
+Flux::toast(variant: 'warning', ...);
+Flux::toast(variant: 'danger', ...);
+```
+
+## Inverted
+
+Add `invert` to the toast component in your layout to use a dark appearance in light mode and a light appearance in dark mode. This configures every toast while leaving `variant` available for per-message semantics.
+
+```blade
+<flux:toast invert />
+```
+
+## Actions
+
+Add a single action to a toast when users need to respond to it. The action dispatches a browser event that any Livewire component on the page can listen for.
+
+```php
+use Flux\Flux;
+use Livewire\Attributes\On;
+
+public function save()
+{
+    // ...
+
+    Flux::toast(
+        text: 'Changes saved.',
+        action: [
+            'label' => 'Undo',
+            'event' => 'undo-changes',
+            'params' => ['changeSetId' => $changeSet->id],
+        ],
+    );
+}
+
+#[On('undo-changes')]
+public function undoChanges(int $changeSetId)
+{
+    // Restore the changes...
+}
+```
+
+The action shows a loading indicator while the listening component is working, then dismisses the toast when the request finishes. Pass `'dismiss' => false` to keep it open afterward.
+
+An action can also be a real link. This keeps native link behavior such as opening in a new tab and supports `wire:navigate`.
+
+```php
+Flux::toast(
+    text: 'Invoice created.',
+    action: [
+        'label' => 'View',
+        'href' => route('invoices.show', $invoice),
+        'navigate' => true,
+    ],
+);
+```
+
+## Links
+
+Add a link to a toast to give users a clear next step.
+
+```php
+Flux::toast(
+    text: 'Invoice created.',
+    link: [
+        'label' => 'View invoice',
+        'href' => route('invoices.show', $invoice),
+        'navigate' => true,
+    ],
+);
+```
+
+The same link options are available when triggering a toast from JavaScript.
+
+```javascript
+$flux.toast('Invoice created.', {
+    link: {
+        label: 'View invoice',
+        href: '/invoices/123',
+        navigate: true,
+    },
+})
+```
+
+## Positioning
+
+By default, the toast will appear in the bottom right corner of the page. You can customize this position using the `position` prop.
+
+```blade
+<flux:toast position="top end" />
+
+<!-- Customize top padding for things like navbars... -->
+<flux:toast position="top end" class="pt-24" />
+```
+
+## Duration
+
+By default, the toast will automatically dismiss after 5 seconds. You can customize this duration by passing a number of milliseconds to the `duration` prop.
+
+```php
+// 1 second...
+Flux::toast(duration: 1000, ...);
+```
+
+## Permanent
+
+Use a value of `0` as the `duration` prop to make the toast stay open indefinitely.
+
+```php
+// Show indefinitely...
+Flux::toast(duration: 0, ...);
+```
+
+## Stack
+
+To show a stack of toasts, you can wrap the `flux:toast` component in a `flux:toast.group` component. By default, toasts in a stack overlap and expand on hover to show each toast vertically.
+
+```php
+<flux:toast.group>
+    <flux:toast />
+</flux:toast.group>
+```
+
+Use the `expanded` prop to always show the toast stack in an expanded state, making all toasts visible at once.
+
+```blade
+<flux:toast.group expanded>
+    <flux:toast />
+</flux:toast.group>
+```
+
+The group component also accepts the `position` prop to control where the toast stack appears on the screen.
+
+```blade
+<flux:toast.group position="top end">
+    <flux:toast />
+</flux:toast.group>
+```
+
+## Related
+
+- [Callout](https://fluxui.dev/components/callout) - A flexible content container for alerts, messages, and notifications
+- [Modal](https://fluxui.dev/components/modal) - Display temporary content in a modal dialog
+
+## Reference
+
+### flux:toast
+
+**Prop:**
+
+- `position` - Position of the toast on the screen. Options: `bottom end` (default), `bottom center`, `bottom start`, `top end`, `top center`, `top start`.
+- `invert` - If `true`, uses a dark appearance in light mode and a light appearance in dark mode for every toast. Default: `false`.
+
+### flux:toast.group
+
+**Prop:**
+
+- `position` - Position of the toast group on the screen. Options: `bottom end` (default), `bottom center`, `bottom start`, `top end`, `top center`, `top start`.
+- `expanded` - If `true`, always shows the toast stack in an expanded state, making all toasts visible at once. Default: `false`.
+
+### Flux::toast()
+
+The PHP method used to trigger toasts from Livewire components.
+
+**Parameter:**
+
+- `heading` - Optional heading text for the toast.
+- `text` - Main content text of the toast.
+- `variant` - Visual style. Options: `success`, `warning`, `danger`.
+- `duration` - Duration in milliseconds. Use `0` for permanent toasts. Default: `5000`.
+- `link` - Optional link configuration. Supports `label`, `href`, `target`, `rel`, `download`, and `navigate`. The legacy `text` option is also supported for backwards compatibility.
+- `action` - Optional action configuration. Requires a `label` and either an `event` or `href`. Event actions support `params` and `dismiss`; link actions support `target`, `rel`, `download`, and `navigate`.
+
+### $flux.toast()
+
+The Alpine.js magic method used to trigger toasts from Alpine components. It can be used in two ways:
+
+```javascript
+// Simple usage with just a message...
+$flux.toast('Your changes have been saved')
+
+// Advanced usage with full configuration...
+$flux.toast({
+    heading: 'Success!',
+    text: 'Your changes have been saved',
+    variant: 'success',
+    duration: 3000
+})
+```
+
+**Parameter:**
+
+- `message` - A string containing the toast message. When using this simple form, the message becomes the toast's text content.
+- `options` - Alternatively, an object containing:
+                - `heading`: Optional title text
+                - `text`: Main message text
+                - `variant`: Visual style (`success`, `warning`, `danger`)
+                - `duration`: Display time in milliseconds
+                - `link`: Optional link configuration with `label`, `href`, `target`, `rel`, `download`, and `navigate`. The legacy `text` option is also supported for backwards compatibility
+                - `action`: Optional action configuration with `label` and either `event`, `href`, or `onClick`

@@ -9,4 +9,4 @@ Choose the smallest customization level that solves the design requirement.
 
 Do not publish every component for a small styling change. If the project already has published views, inspect them before relying on upstream examples.
 
-**Current source:** [Flux UI customization](https://fluxui.dev/docs/customization.md).
+**Full page:** `references/source/docs/customization.md` (bundled) or [live](https://fluxui.dev/docs/customization.md).

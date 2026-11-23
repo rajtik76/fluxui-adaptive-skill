@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Upload and preview one or more files.
 - **Main tags:** `flux:file-upload`, `flux:file-upload.dropzone`, `flux:file-item`, `flux:file-item.remove`.
-- **Common props:** `name`, `multiple`, `label`, `description`, `error`, `disabled`, `wire:model`.
 
 **Starter:**
 
@@ -27,13 +26,4 @@
 - **Single file upload** — Bind one upload to a single property and manage its preview/removal.
 - **Multiple files upload** — Bind an array property and enable `multiple` for several files.
 
-## Component API
-
-- **`flux:file-upload`** — props: `name`, `multiple` (default `false`), `label`, `description`, `error`, `disabled` (default `false`); livewire directives: `wire:model`.
-- **`flux:file-upload.dropzone`** — props: `heading`, `text`, `icon` (default `cloud-arrow-up`), `inline` (default `false`), `with-progress` (default `false`).
-- **`flux:file-item`** — props: `heading`, `text`, `image`, `size`, `icon` (default `document`), `invalid` (default `false`); slots: `actions`.
-- **`flux:file-item.remove`** — livewire directives: `wire:click`, `aria-label`.
-
-**Implementation:** Bind with Livewire and use a dropzone or file items. Validate file type, size, and storage on the server; upload UI alone is not validation.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/file-upload.md).
+**Full page:** `references/source/components/file-upload.md` (bundled) or [live](https://fluxui.dev/components/file-upload.md). Read it for exact props, slots, and values.

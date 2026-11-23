@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Switch between related panels without leaving the page.
 - **Main tags:** `flux:tab.group`, `flux:tabs`, `flux:tab`, `flux:tab.panel`.
-- **Common props:** `findable`.
 
 **Starter:**
 
@@ -30,13 +29,4 @@
 - **Pill tabs** — tags `flux:tabs`, `flux:tab`; settings `variant="pills"`.
 - **Dynamic tabs** — tags `flux:tab.group`, `flux:tabs`, `flux:tab`, `flux:tab.panel`; settings `icon`, `action`.
 
-## Component API
-
-- **`flux:tab.group`** — props: `findable`.
-- **`flux:tabs`** — props: `wire:model`, `variant` (values `default`, `segmented`, `pills`), `size` (values `base`, `sm`), `scrollable`, `scrollable:scrollbar` (values `hide`), `scrollable:fade`.
-- **`flux:tab`** — props: `name`, `icon`, `icon:trailing`, `icon:variant` (values `outline`, `solid`, `mini`, `micro`), `selected`, `action`, `accent`, `size` (values `base`, `sm`), `disabled`.
-- **`flux:tab.panel`** — props: `name`, `selected`.
-
-**Implementation:** Compose `flux:tab.group`, tabs, and matching panels. Names must match; consider findable or scrollable tabs for larger sets.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/tabs.md).
+**Full page:** `references/source/components/tabs.md` (bundled) or [live](https://fluxui.dev/components/tabs.md). Read it for exact props, slots, and values.

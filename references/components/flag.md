@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Render a country flag from a region code.
 - **Main tags:** `flux:flag`.
-- **Common props:** `country`, `src`, `alt`, `size`, `circle`.
 
 **Starter:**
 
@@ -28,10 +27,4 @@
 - **Custom flags** — tags `flux:flag`; settings `src`, `alt="California"`, `size="xl"`.
 - **Accessibility** — tags `flux:flag`; settings `country="CA"`, `alt="Canada"`.
 
-## Component API
-
-- **`flux:flag`** — props: `country`, `src`, `alt`, `size`, `circle`.
-
-**Implementation:** Set a two-letter `country` code; `size`, `circle`, or a custom `src` change the display.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/flag.md).
+**Full page:** `references/source/components/flag.md` (bundled) or [live](https://fluxui.dev/components/flag.md). Read it for exact props, slots, and values.

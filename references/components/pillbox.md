@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Choose several values shown as removable pills.
 - **Main tags:** `flux:pillbox`, `flux:pillbox.option`, `flux:pillbox.option.create`, `flux:pillbox.option.empty`, `flux:pillbox.search`, `flux:pillbox.trigger`.
-- **Common props:** `wire:model`, `placeholder`, `label`, `description`, `size`, `searchable`, `search:placeholder`, `filter`, `disabled`, `invalid`, `trigger`, `search`.
 
 **Starter:**
 
@@ -30,15 +29,4 @@
 - **With validation** — tags `flux:pillbox`, `flux:pillbox.input`, `flux:pillbox.option.create`; settings `min-length="2"`.
 - **With modal** — tags `flux:pillbox`, `flux:pillbox.option.create`, `flux:pillbox.option`, `flux:modal`, `flux:heading`; settings `modal="create-tag"`, `size="lg"`.
 
-## Component API
-
-- **`flux:pillbox`** — props: `wire:model`, `placeholder`, `label`, `description`, `size` (values `sm`), `searchable`, `search:placeholder`, `filter`, `disabled`, `invalid`; slots: `trigger`, `search`, `empty`.
-- **`flux:pillbox.option`** — props: `value`, `label`, `selected-label`, `disabled`, `filterable`.
-- **`flux:pillbox.option.create`** — props: `min-length`, `modal`, `wire:click`.
-- **`flux:pillbox.option.empty`** — props: `when-loading`.
-- **`flux:pillbox.search`** — props: `placeholder`, `icon`, `clearable` (default `true`).
-- **`flux:pillbox.trigger`** — props: `placeholder`, `invalid`, `size` (values `sm`), `clearable`.
-
-**Implementation:** Bind an array-like selection and add `flux:pillbox.option` choices. Search, creation, and backend search patterns are available.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/pillbox.md).
+**Full page:** `references/source/components/pillbox.md` (bundled) or [live](https://fluxui.dev/components/pillbox.md). Read it for exact props, slots, and values.

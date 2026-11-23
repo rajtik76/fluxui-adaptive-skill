@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Draw attention to guidance, updates, or warnings.
 - **Main tags:** `flux:callout`, `flux:callout.heading`, `flux:callout.text`, `flux:callout.link`.
-- **Common props:** `icon`, `icon:variant`, `variant`, `color`, `inline`, `heading`, `text`, `actions`, `controls`.
 
 **Starter:**
 
@@ -31,12 +30,4 @@
 - **Upgrade offer** — tags `flux:callout`, `flux:callout.heading`, `flux:button`; settings `icon`, `color="lime"`, `inline`.
 - **Engagement prompt** — tags `flux:callout`, `flux:callout.heading`, `flux:badge`, `flux:callout.text`, `flux:button`; settings `variant="secondary"`, `icon`, `color="purple"`, `variant="ghost"`.
 
-## Component API
-
-- **`flux:callout`** — props: `icon`, `icon:variant`, `variant` (values `secondary`, `success`, `warning`, `danger`; default `secondary`), `color`, `inline` (default `false`), `heading`, `text`; slots: `icon`, `actions`, `controls`.
-- **`flux:callout.heading`** — props: `icon`, `icon:variant`; slots: `icon`.
-- **`flux:callout.link`** — props: `href`, `external` (default `false`).
-
-**Implementation:** Compose heading and text inside the callout. Variants, colors, links, actions, and dismiss controls can match the message priority.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/callout.md).
+**Full page:** `references/source/components/callout.md` (bundled) or [live](https://fluxui.dev/components/callout.md). Read it for exact props, slots, and values.

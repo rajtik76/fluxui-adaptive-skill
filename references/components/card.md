@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Group related content with a consistent container.
 - **Main tags:** `flux:card`, `flux:card.header`, `flux:card.heading`, `flux:card.subheading`, `flux:card.actions`, `flux:card.body`.
-- **Common props:** `body`, `variant`, `size`, `divider`, `highlight`.
 
 **Starter:**
 
@@ -35,13 +34,4 @@
 - **Inside a body** — tags `flux:card`, `flux:card.header`, `flux:card.heading`, `flux:card.subheading`, `flux:card.body`; settings `body="inset"`, `variant="soft"`, `size="sm"`, `variant="strong"`, `variant="subtle"`, `variant="ghost"`.
 - **Link card** — tags `flux:card`, `flux:heading`, `flux:icon`, `flux:text`; settings `size="xs"`, `variant="micro"`.
 
-## Component API
-
-- **`flux:card`** — props: `body` (values `seamless`, `inset`, `flush`, `divided`, `separated`), `variant` (values `muted`, `soft`, `outline`, `filled`; default `default`), `size` (values `xs`, `sm`, `md`, `lg`), `divider`, `highlight` (default `true`).
-- **`flux:card.header`** — props: `size`.
-- **`flux:card.heading`** — props: `size` (values `base`, `lg`, `xl`), `level`.
-- **`flux:card.footer`** — props: `size`.
-
-**Implementation:** Compose header, heading, subheading, actions, body, and footer as needed. `variant`, `size`, and body treatment adjust layout.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/card.md).
+**Full page:** `references/source/components/card.md` (bundled) or [live](https://fluxui.dev/components/card.md). Read it for exact props, slots, and values.

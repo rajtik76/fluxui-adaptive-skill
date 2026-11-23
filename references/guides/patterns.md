@@ -18,4 +18,4 @@ Read this guide when a component prop, forwarded HTML attribute, Tailwind class,
 
 The guide also covers Blade attribute syntax edge cases. For an exact prop or slot, consult the selected component reference and current page.
 
-**Current source:** [Flux UI patterns](https://fluxui.dev/docs/patterns.md).
+**Full page:** `references/source/docs/patterns.md` (bundled) or [live](https://fluxui.dev/docs/patterns.md).

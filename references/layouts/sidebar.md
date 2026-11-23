@@ -29,4 +29,4 @@ Load Flux appearance and scripts as described in [Installation](../guides/instal
 - `flux:main inset` gives the content a contained panel; a secondary top header can hold context actions or navigation.
 - Use [Header layout](header.md) when a top bar is the primary shell.
 
-**Current source:** [Flux UI sidebar layout](https://fluxui.dev/layouts/sidebar.md).
+**Full page:** `references/source/layouts/sidebar.md` (bundled) or [live](https://fluxui.dev/layouts/sidebar.md).

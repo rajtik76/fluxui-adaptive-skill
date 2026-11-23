@@ -14,4 +14,4 @@ Tabs, links, and navigation items may follow the accent by default. On supported
 
 The [theme builder](https://fluxui.dev/themes) can help choose values, while [Customization](customization.md) covers component level changes.
 
-**Current source:** [Flux UI theming](https://fluxui.dev/docs/theming.md).
+**Full page:** `references/source/docs/theming.md` (bundled) or [live](https://fluxui.dev/docs/theming.md).

@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Display a logo and product name in navigation or a header.
 - **Main tags:** `flux:brand`.
-- **Common props:** `name`, `logo`, `alt`, `href`.
 
 **Starter:**
 
@@ -23,10 +22,4 @@
 - **Logo only** — tags `flux:brand`; settings `logo="/img/demo/logo.png"`.
 - **Header with brand** — tags `flux:header`, `flux:brand`, `flux:navbar`, `flux:navbar.item`, `flux:spacer`.
 
-## Component API
-
-- **`flux:brand`** — props: `name`, `logo`, `alt`, `href`; slots: `logo`.
-
-**Implementation:** Set `name`, `logo`, and optionally `href`; use the logo slot for custom markup.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/brand.md).
+**Full page:** `references/source/components/brand.md` (bundled) or [live](https://fluxui.dev/components/brand.md). Read it for exact props, slots, and values.

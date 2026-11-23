@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Collect short text and other native input values.
 - **Main tags:** `flux:input`, `flux:input.group`, `flux:input.group.prefix`, `flux:input.group.suffix`.
-- **Common props:** `wire:model`, `label`, `description`, `description:trailing`, `placeholder`, `size`, `variant`, `disabled`, `readonly`, `invalid`, `multiple`, `mask`.
 
 **Starter:**
 
@@ -37,12 +36,4 @@
 - **Text prefixes and suffixes** — tags `flux:input.group`, `flux:input.group.prefix`, `flux:input`, `flux:input.group.suffix`.
 - **Input group labels** — tags `flux:field`, `flux:label`, `flux:input.group`, `flux:input.group.prefix`, `flux:input`.
 
-## Component API
-
-- **`flux:input`** — props: `wire:model`, `label`, `description`, `description:trailing`, `placeholder`, `size` (values `sm`, `xs`), `variant` (values `filled`; default `outline`), `disabled`, `readonly`, `invalid`, `multiple`, `mask`, `mask:dynamic`, `icon`, `icon:trailing`, `kbd`, `clearable`, `copyable`, `viewable`, `as` (values `button`; default `input`), `input:class`; slots: `icon`, `icon:leading`, `icon:trailing`.
-- **`flux:input.group.prefix`** — props: `size` (values `sm`, `xs`).
-- **`flux:input.group.suffix`** — props: `size` (values `sm`, `xs`).
-
-**Implementation:** Bind with Livewire and use label, description, and error shorthand or a full field. Check type, mask, icons, and disabled/readonly behavior.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/input.md).
+**Full page:** `references/source/components/input.md` (bundled) or [live](https://fluxui.dev/components/input.md). Read it for exact props, slots, and values.

@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Collect one or more boolean choices.
 - **Main tags:** `flux:checkbox`, `flux:checkbox.group`, `flux:checkbox.all`.
-- **Common props:** `wire:model`, `label`, `description`, `value`, `checked`, `indeterminate`, `disabled`, `invalid`.
 
 **Starter:**
 
@@ -32,12 +31,4 @@
 - **Pills** — tags `flux:checkbox.group`, `flux:checkbox`; settings `variant="pills"`.
 - **Buttons** — tags `flux:checkbox.group`, `flux:checkbox`; settings `variant="buttons"`.
 
-## Component API
-
-- **`flux:checkbox`** — props: `wire:model`, `label`, `description`, `value`, `checked`, `indeterminate`, `disabled`, `invalid`.
-- **`flux:checkbox.group`** — props: `wire:model`, `label`, `description`, `variant` (values `default`, `cards`, `pills`, `buttons`), `disabled`, `invalid`.
-- **`flux:checkbox.all`** — props: `label`, `description`, `disabled`.
-
-**Implementation:** Bind a single checkbox or a checkbox group with Livewire. Use `value` for grouped options; `flux:checkbox.all` supports select-all behavior.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/checkbox.md).
+**Full page:** `references/source/components/checkbox.md` (bundled) or [live](https://fluxui.dev/components/checkbox.md). Read it for exact props, slots, and values.

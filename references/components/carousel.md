@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Present a sequence of horizontally scrollable slides.
 - **Main tags:** `flux:carousel`, `flux:carousel.slide`, `flux:carousel.controls`.
-- **Common props:** `arrows`, `arrows:position`, `arrows:class`, `autoplay`, `autoplay:interval`, `indicators`, `disabled`, `fade`, `bleed`, `snap`, `scroll`, `advance`.
 
 **Starter:**
 
@@ -26,12 +25,4 @@
 - **Fade** — tags `flux:carousel`; settings `fade`, `bleed`.
 - **Page advance** — tags `flux:carousel`; settings `advance="page"`.
 
-## Component API
-
-- **`flux:carousel`** — props: `arrows` (default `true`), `arrows:position` (values `inside`, `overlap`, `outside`; default `inside`), `arrows:class`, `autoplay`, `autoplay:interval` (default `5000`), `indicators` (default `false`), `disabled`, `fade`, `bleed`, `snap` (values `proximity`, `mandatory`; default `proximity`), `scroll` (values `smooth`, `instant`; default `smooth`), `advance` (values `slide`, `page`; default `slide`), `wrap` (values `none`, `rewind`; default `none`), `name`, `track:class`.
-- **`flux:carousel.slide`** — props: `class`.
-- **`flux:carousel.controls`** — props: `name`.
-
-**Implementation:** Place slides inside `flux:carousel`; configure arrows, indicators, autoplay, snapping, or fade only when needed.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/carousel.md).
+**Full page:** `references/source/components/carousel.md` (bundled) or [live](https://fluxui.dev/components/carousel.md). Read it for exact props, slots, and values.

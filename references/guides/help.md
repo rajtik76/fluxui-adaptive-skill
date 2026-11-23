@@ -8,4 +8,4 @@ Use Flux's current support routes when documentation and project inspection do n
 
 For an implementation question, include the installed package versions and a minimal Blade/Livewire example so the issue can be reproduced.
 
-**Current source:** [Flux UI help](https://fluxui.dev/docs/help.md).
+**Full page:** `references/source/docs/help.md` (bundled) or [live](https://fluxui.dev/docs/help.md).

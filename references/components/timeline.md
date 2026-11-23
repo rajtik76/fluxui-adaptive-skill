@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Present events or steps in sequence.
 - **Main tags:** `flux:timeline`, `flux:timeline.item`, `flux:timeline.indicator`, `flux:timeline.content`, `flux:timeline.block`, `flux:timeline.subgrid`.
-- **Common props:** `horizontal`, `align`, `size`.
 
 **Starter:**
 
@@ -30,12 +29,4 @@
 - **Baseline adjustment** — tags `flux:timeline.item`, `flux:timeline.indicator`, `flux:timeline.content`, `flux:heading`; settings `align="baseline"`, `size="xl"`.
 - **Spacing** — tags `flux:timeline`.
 
-## Component API
-
-- **`flux:timeline`** — props: `horizontal`, `align` (values `start`, `baseline`, `center`, `end`), `size` (values `lg`).
-- **`flux:timeline.item`** — props: `status` (values `complete`, `current`, `incomplete`), `align` (values `start`, `baseline`, `center`, `end`), `size` (values `lg`).
-- **`flux:timeline.indicator`** — props: `variant` (values `bare`), `status` (values `complete`, `current`, `incomplete`), `color` (values `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`).
-
-**Implementation:** Nest items with indicators and content. Horizontal orientation, size, and status styles cover different densities.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/timeline.md).
+**Full page:** `references/source/components/timeline.md` (bundled) or [live](https://fluxui.dev/components/timeline.md). Read it for exact props, slots, and values.

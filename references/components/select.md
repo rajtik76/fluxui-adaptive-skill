@@ -3,7 +3,6 @@
 - **Availability:** Flux (free) for the native select; the listbox, searchable, multiple, combobox, backend-search, and option-creation variants require Flux Pro.
 - **Use:** Choose from a controlled set of options.
 - **Main tags:** `flux:select`, `flux:select.option`, `flux:select.group`, `flux:select.option.create`, `flux:select.option.empty`, `flux:select.button`.
-- **Common props:** `wire:model`, `placeholder`, `label`, `description`, `description:trailing`, `badge`, `size`, `variant`, `multiple`, `filter`, `searchable`, `empty`.
 
 **Starter:**
 
@@ -47,17 +46,4 @@
 - **With validation (Pro)** — tags `flux:select`, `flux:select.input`, `flux:select.option.create`; settings `variant="combobox"`, `min-length="2"`.
 - **With modal (Pro)** — tags `flux:select`, `flux:select.option`, `flux:select.option.create`, `flux:modal`, `flux:heading`; settings `variant="listbox"`, `modal="create-project"`, `size="lg"`, `variant="primary"`.
 
-## Component API
-
-- **`flux:select`** — props: `wire:model`, `placeholder`, `label`, `description`, `description:trailing`, `badge`, `size` (values `sm`, `xs`), `variant` (values `default`, `listbox`, `combobox`), `multiple`, `filter`, `searchable`, `empty` (default `No results found`), `clearable`, `prefix`, `selected-suffix`, `clear` (values `select`, `close`), `position` (values `top`, `right`, `bottom`, `left`), `align` (values `start`, `center`, `end`; default `start`), `options:class`, `disabled`, `invalid`; slots: `trigger`, `empty`.
-- **`flux:select.option`** — props: `value`, `label`, `selected-label`, `keywords`, `icon`, `icon:variant` (values `outline`, `solid`, `mini`, `micro`; default `mini`), `icon:class`, `avatar`, `avatar:*`, `description`, `disabled`.
-- **`flux:select.group`** — props: `label`.
-- **`flux:select.option.create`** — props: `min-length`, `modal`, `wire:click`.
-- **`flux:select.option.empty`** — props: `when-loading`.
-- **`flux:select.button`** — props: `placeholder`, `invalid`, `size` (values `sm`, `xs`), `disabled`, `clearable`.
-- **`flux:select.input`** — props: `placeholder`, `invalid`, `size` (values `sm`, `xs`).
-- **`flux:select.search`** — props: `placeholder`, `icon`, `clearable` (default `true`).
-
-**Implementation:** Bind the select and add `flux:select.option` values. Native and custom variants differ; search, grouping, and multiple selection depend on the chosen variant.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/select.md).
+**Full page:** `references/source/components/select.md` (bundled) or [live](https://fluxui.dev/components/select.md). Read it for exact props, slots, and values.

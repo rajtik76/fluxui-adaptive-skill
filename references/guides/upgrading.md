@@ -13,4 +13,4 @@ This page concerns migration from Flux v1 to v2. Inspect the installed Flux, Liv
 
 Published component views may need more work than ordinary app views because local copies do not receive upstream changes automatically. Compare them with the current Flux release notes.
 
-**Current source:** [Flux UI upgrade guide](https://fluxui.dev/docs/upgrading.md).
+**Full page:** `references/source/docs/upgrading.md` (bundled) or [live](https://fluxui.dev/docs/upgrading.md).

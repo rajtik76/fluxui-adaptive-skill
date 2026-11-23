@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Represent a person or entity with an image, initials, or icon.
 - **Main tags:** `flux:avatar`, `flux:avatar.group`.
-- **Common props:** `name`, `src`, `initials`, `alt`, `size`, `color`, `color:seed`, `circle`, `icon`, `icon:variant`, `tooltip`, `tooltip:position`.
 
 **Starter:**
 
@@ -37,11 +36,4 @@
 - **Select options** — tags `flux:select`, `flux:select.option`, `flux:avatar`; settings `circle`, `size="xs"`, `src`.
 - **User popover** — tags `flux:dropdown`, `flux:avatar`, `flux:popover`, `flux:button`, `flux:heading`; settings `as="button"`, `src`, `icon`, `size="sm"`, `size="xl"`.
 
-## Component API
-
-- **`flux:avatar`** — props: `name`, `src`, `initials`, `alt` (default `name`), `size` (values `xs`, `sm`, `lg`), `color` (values `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`), `color:seed`, `circle`, `icon`, `icon:variant` (values `outline`, `solid`; default `solid`), `tooltip`, `tooltip:position` (values `top`, `right`, `bottom`, `left`; default `top`), `badge`, `badge:color` (values `color`), `badge:circle`, `badge:position` (values `top left`, `top right`, `bottom left`, `bottom right`; default `bottom right`), `badge:variant` (values `solid`, `outline`; default `solid`), `as` (values `button`, `div`), `href`; slots: `badge`.
-- **`flux:avatar.group`** — props: `class`.
-
-**Implementation:** Provide `src`, `name`, or `initials`; `name` can supply initials. Groups, badges, tooltips, circular shape, and automatic colors are available.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/avatar.md).
+**Full page:** `references/source/components/avatar.md` (bundled) or [live](https://fluxui.dev/components/avatar.md). Read it for exact props, slots, and values.

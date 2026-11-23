@@ -23,10 +23,4 @@
 - **With ellipsis** — tags `flux:breadcrumbs`, `flux:breadcrumbs.item`; settings `icon`.
 - **With ellipsis dropdown** — tags `flux:breadcrumbs`, `flux:breadcrumbs.item`, `flux:dropdown`, `flux:button`, `flux:navmenu`; settings `icon`.
 
-## Component API
-
-- **`flux:breadcrumbs.item`** — props: `href`, `icon`, `icon:variant` (values `outline`, `solid`, `mini`, `micro`; default `mini`), `separator` (default `chevron-right`).
-
-**Implementation:** Nest `flux:breadcrumbs.item` elements with `href` for ancestors. Long trails can use an ellipsis and dropdown.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/breadcrumbs.md).
+**Full page:** `references/source/components/breadcrumbs.md` (bundled) or [live](https://fluxui.dev/components/breadcrumbs.md). Read it for exact props, slots, and values.

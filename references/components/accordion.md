@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Show expandable sections such as FAQs.
 - **Main tags:** `flux:accordion`, `flux:accordion.item`, `flux:accordion.heading`, `flux:accordion.content`.
-- **Common props:** `variant`, `transition`, `exclusive`.
 
 **Starter:**
 
@@ -27,11 +26,4 @@
 - **Expanded** — Set `expanded` on an item to make it open initially.
 - **Leading icon** — Use `variant="reverse"` on the container to place the icon before the heading.
 
-## Component API
-
-- **`flux:accordion`** — props: `variant`, `transition` (default `false`), `exclusive` (default `false`).
-- **`flux:accordion.item`** — props: `heading`, `expanded` (default `false`), `disabled` (default `false`).
-
-**Implementation:** Place item, heading, and content tags inside the accordion. Use `exclusive` for one open item at a time; items can start `expanded` or be `disabled`.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/accordion.md).
+**Full page:** `references/source/components/accordion.md` (bundled) or [live](https://fluxui.dev/components/accordion.md). Read it for exact props, slots, and values.

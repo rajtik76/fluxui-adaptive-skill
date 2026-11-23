@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Edit formatted text in a Livewire form.
 - **Main tags:** `flux:editor`, `flux:editor.toolbar`, `flux:editor.button`, `flux:editor.content`.
-- **Common props:** `wire:model`, `value`, `label`, `description`, `description:trailing`, `badge`, `placeholder`, `toolbar`, `disabled`, `invalid`.
 
 **Starter:**
 
@@ -34,12 +33,4 @@
 - **Disabling extensions** — Call `disableExtension` with an extension name to turn it off.
 - **Accessing the instance** — Use the editor event `init` callback to access the underlying Tiptap instance.
 
-## Component API
-
-- **`flux:editor`** — props: `wire:model`, `value`, `label`, `description`, `description:trailing`, `badge`, `placeholder`, `toolbar`, `disabled`, `invalid`.
-- **`flux:editor.toolbar`** — props: `items`.
-- **`flux:editor.button`** — props: `icon`, `iconVariant` (values `mini`, `micro`, `outline`; default `mini`), `tooltip`, `disabled`.
-
-**Implementation:** Bind content with `wire:model`. The toolbar can be customized; confirm the expected stored format and validation in the live docs.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/editor.md).
+**Full page:** `references/source/components/editor.md` (bundled) or [live](https://fluxui.dev/components/editor.md). Read it for exact props, slots, and values.

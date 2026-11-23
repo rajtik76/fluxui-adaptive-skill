@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Create a visual boundary between regions.
 - **Main tags:** `flux:separator`.
-- **Common props:** `vertical`, `variant`, `text`, `orientation`.
 
 **Starter:**
 
@@ -24,10 +23,4 @@
 - **Limited height** — tags `flux:separator`; settings `vertical`.
 - **Subtle** — tags `flux:separator`; settings `vertical`, `variant="subtle"`.
 
-## Component API
-
-- **`flux:separator`** — props: `vertical`, `variant` (values `subtle`), `text`, `orientation` (values `horizontal`, `vertical`; default `horizontal`); classs: `my-*`.
-
-**Implementation:** Use horizontal separation by default; set `vertical` where the layout calls for it. Text and subtle treatments are available.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/separator.md).
+**Full page:** `references/source/components/separator.md` (bundled) or [live](https://fluxui.dev/components/separator.md). Read it for exact props, slots, and values.

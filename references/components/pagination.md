@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Navigate through a Laravel paginated result set.
 - **Main tags:** `flux:pagination`.
-- **Common props:** `paginator`, `scroll-to`.
 
 **Starter:**
 
@@ -23,10 +22,4 @@
 - **Large result set** — tags `flux:pagination`.
 - **Scroll to top** — tags `flux:pagination`; settings `scroll-to`.
 
-## Component API
-
-- **`flux:pagination`** — props: `paginator`, `scroll-to` (default `body`).
-
-**Implementation:** Pass a paginator instance to `:paginator`. Use Laravel simple pagination when total counts are expensive.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/pagination.md).
+**Full page:** `references/source/components/pagination.md` (bundled) or [live](https://fluxui.dev/components/pagination.md). Read it for exact props, slots, and values.

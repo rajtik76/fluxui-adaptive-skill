@@ -21,4 +21,4 @@ Use this guide when adding Flux to a Laravel application or diagnosing missing a
 
 Read [Theming](theming.md) for colors, [Dark mode](dark-mode.md) for appearance controls, and [Customization](customization.md) before publishing component views. For an existing v1 project, start with [Upgrade guide](upgrading.md).
 
-**Current source:** [Flux UI installation](https://fluxui.dev/docs/installation.md).
+**Full page:** `references/source/docs/installation.md` (bundled) or [live](https://fluxui.dev/docs/installation.md).

@@ -27,4 +27,4 @@ The layout should also load the assets described in [Installation](../guides/ins
 - A secondary sidebar can accompany the header when the application needs another navigation level. Keep primary and secondary destinations distinct.
 - Use the [Sidebar layout](sidebar.md) for a navigation-first shell instead.
 
-**Current source:** [Flux UI header layout](https://fluxui.dev/layouts/header.md).
+**Full page:** `references/source/layouts/header.md` (bundled) or [live](https://fluxui.dev/layouts/header.md).

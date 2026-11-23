@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Enter a fixed-length verification code.
 - **Main tags:** `flux:otp`, `flux:otp.input`, `flux:otp.separator`, `flux:otp.group`.
-- **Common props:** `wire:model`, `value`, `length`, `mode`, `private`, `submit`, `autocomplete`.
 
 **Starter:**
 
@@ -27,13 +26,4 @@
 - **Group** — tags `flux:otp`, `flux:otp.group`, `flux:otp.input`.
 - **Group separator** — tags `flux:otp`, `flux:otp.group`, `flux:otp.input`, `flux:otp.separator`.
 
-## Component API
-
-- **`flux:otp`** — props: `wire:model`, `value`, `length`, `mode`, `private`, `submit` (values `auto`), `autocomplete` (default `one-time-code`).
-- **`flux:otp.input`** — props: `—`.
-- **`flux:otp.separator`** — props: `—`.
-- **`flux:otp.group`** — slots: `Default`.
-
-**Implementation:** Bind `flux:otp` to Livewire and set `length`; alphanumeric, private, grouped, and submit modes are available.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/otp-input.md).
+**Full page:** `references/source/components/otp-input.md` (bundled) or [live](https://fluxui.dev/components/otp-input.md). Read it for exact props, slots, and values.

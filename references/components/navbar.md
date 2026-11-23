@@ -27,12 +27,4 @@
 - **Collapsible groups** — tags `flux:navlist`, `flux:navlist.item`, `flux:navlist.group`; settings `icon`, `heading`, `expandable`.
 - **Navlist badges** — tags `flux:navlist`, `flux:navlist.item`; settings `icon`, `badge`, `badge:color="lime"`.
 
-## Component API
-
-- **`flux:navbar.item`** — props: `href`, `current`, `icon`, `icon:trailing`, `badge`, `badge:color` (values `color`), `badge:variant` (values `solid`, `outline`; default `solid`).
-- **`flux:navlist.item`** — props: `href`, `current`, `icon`, `badge`, `badge:color` (values `color`), `badge:variant` (values `solid`, `outline`; default `solid`).
-- **`flux:navlist.group`** — props: `heading`, `expandable`, `expanded`.
-
-**Implementation:** Place `flux:navbar.item` links in a navbar. Use the navlist family for sidebar menus and mark the active route.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/navbar.md).
+**Full page:** `references/source/components/navbar.md` (bundled) or [live](https://fluxui.dev/components/navbar.md). Read it for exact props, slots, and values.

@@ -12,4 +12,4 @@ Flux can manage light, dark, and system appearance. Configure the application's 
 
 A toggle can flip the current state. A dropdown or segmented radio control can expose all three appearance choices. Bind the control to the appearance utility rather than maintaining a second unsynchronized state. If implementing custom state handling, remember to persist preference and respond to changes in the system setting.
 
-**Current source:** [Flux UI dark mode](https://fluxui.dev/docs/dark-mode.md).
+**Full page:** `references/source/docs/dark-mode.md` (bundled) or [live](https://fluxui.dev/docs/dark-mode.md).

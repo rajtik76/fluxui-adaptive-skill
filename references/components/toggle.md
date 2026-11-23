@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Offer a compact button-style boolean control.
 - **Main tags:** `flux:toggle`.
-- **Common props:** `wire:model`, `icon`, `on:icon`, `off:icon`, `label`, `on:label`, `off:label`, `size`, `variant`, `color`, `tooltip`, `checked`.
 
 **Starter:**
 
@@ -28,10 +27,4 @@
 - **Custom icons** — tags `flux:toggle`, `flux:icon.shrink`, `flux:icon.expand`; settings `tooltip="Toggle fullscreen"`.
 - **Stateful label** — tags `flux:toggle`; settings `on:label="Sound on"`, `off:label="Sound off"`.
 
-## Component API
-
-- **`flux:toggle`** — props: `wire:model`, `icon`, `on:icon`, `off:icon`, `label`, `on:label`, `off:label`, `size` (values `base`, `sm`, `xs`), `variant` (values `outline`, `filled`, `ghost`, `subtle`), `color`, `tooltip`, `checked`, `disabled`; slots: `icon`.
-
-**Implementation:** Bind with Livewire. Icons and labels can differ by on/off state; `wire:change` can save a setting after a toggle.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/toggle.md).
+**Full page:** `references/source/components/toggle.md` (bundled) or [live](https://fluxui.dev/components/toggle.md). Read it for exact props, slots, and values.

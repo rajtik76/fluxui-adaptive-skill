@@ -25,11 +25,4 @@
 - **Card header** — tags `flux:kanban.card`, `flux:badge`; settings `as="button"`, `heading`.
 - **Card footer** — tags `flux:kanban.card`, `flux:icon`, `flux:avatar.group`, `flux:avatar`; settings `as="button"`, `heading`.
 
-## Component API
-
-- **`flux:kanban.column.header`** — props: `heading`, `subheading`, `count`, `badge`; slots: `actions`.
-- **`flux:kanban.card`** — props: `heading`, `as` (values `button`, `div`); slots: `header`, `footer`.
-
-**Implementation:** Compose columns, column headers, card lists, and cards. Provide the underlying item data and actions from the application.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/kanban.md).
+**Full page:** `references/source/components/kanban.md` (bundled) or [live](https://fluxui.dev/components/kanban.md). Read it for exact props, slots, and values.

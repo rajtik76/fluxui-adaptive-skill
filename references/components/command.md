@@ -20,11 +20,4 @@
 
 - **As a modal** — tags `flux:modal.trigger`, `flux:input`, `flux:modal`, `flux:command`, `flux:command.input`; settings `icon`, `kbd`, `closable`.
 
-## Component API
-
-- **`flux:command.input`** — props: `clearable`, `closable`, `icon` (default `magnifying-glass`), `placeholder`.
-- **`flux:command.item`** — props: `icon`, `icon:variant` (values `outline`, `solid`, `mini`, `micro`), `kbd`.
-
-**Implementation:** Compose input, items, and actionable items under `flux:command`. It can also appear inside a modal.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/command.md).
+**Full page:** `references/source/components/command.md` (bundled) or [live](https://fluxui.dev/components/command.md). Read it for exact props, slots, and values.

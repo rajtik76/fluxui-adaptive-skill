@@ -1,41 +1,40 @@
 # Flux UI Adaptive Skill
 
-An **unofficial agent skill** for Livewire Flux UI. It builds on the workflow of Laravel Boost's MIT-licensed Flux UI skill and adds live discovery. The bundle covers all 52 components, eight guides, and two layouts listed by Flux UI on 31 October 2026, including 21 wholly Pro components and Pro-only variants of Select. An optional Python helper provides SHA-256 source checks and a private offline cache.
+An **unofficial agent skill** for Livewire Flux UI, including Flux Pro. It builds on the workflow of Laravel Boost's MIT-licensed Flux UI skill and adds the official documentation, live discovery of new pages, and an automated update process.
 
 ## What it does
 
-1. The agent reads the current [Flux UI `llms.txt`](https://fluxui.dev/llms.txt) with its available web tool, then merges it with `manifest.json`. Newly released guides, layouts, and components enter the router immediately.
-2. For selected pages, the agent reads official Markdown, or the corresponding HTML page when its web tool cannot open `.md`. Without a reliable raw-byte hash check, it uses the live page directly. With the optional helper, an unchanged page selects the bundled reference; a changed or new page selects the live page immediately.
-3. The helper caches fetched pages privately. If Flux UI is unavailable later, the agent can use an accessible cache or a bundled note, labeled unverified.
-
-The Flux UI Markdown pages are **not distributed in this repository**. Each component has original customization guidance, a capability inventory, documented tags and props with option values and defaults, a starter snippet, and a link to the official page. Guides and layouts have original task-oriented references. The skill targets Flux v2. A page released after the bundled snapshot must be fetched at least once before it can work offline. For specific customization or any uncertain API, the agent reads the current official Markdown page even if the bundled hash matches; if the web tool cannot open `.md`, it uses the corresponding HTML page.
+1. The agent reads the current [Flux UI `llms.txt`](https://fluxui.dev/llms.txt) and merges it with `manifest.json`. Newly released guides, layouts, and components are available immediately.
+2. Short notes in `references/` help the agent choose a component or variant without reading every page.
+3. For implementation, the agent reads the full official Markdown page bundled in `references/source/`. When the installed Flux release is newer than the bundle, or the page lacks a feature, it reads the live page instead.
+4. An optional Python helper compares live pages with the bundle by SHA-256 and caches newer pages privately for offline use.
 
 ## Install
 
-Put this entire repository in your agent's skills directory as `fluxui-adaptive`, preserving `SKILL.md`, `manifest.json`, `references/`, and `scripts/`. The skill name is distinct from Laravel Boost's `fluxui-development`, so both can be installed without a name collision. Follow your agent's normal skill installation instructions for the exact directory or upload method.
+Put this repository in your agent's skills directory as `fluxui-adaptive`, preserving `SKILL.md`, `manifest.json`, `references/`, and `scripts/`. The name differs from Laravel Boost's `fluxui-development`, so both can be installed side by side.
 
 ## Agent compatibility
 
-The basic live workflow needs an agent that can read the skill files and fetch Flux UI documentation. It does **not** require Python or shell access. The exact hash comparison and automatic cache need a shell, Python 3.10+, and a writable cache; no third-party packages are needed. On Windows, `py -3` may replace `python3`.
+The basic workflow needs an agent that can read the skill files; fetching live pages additionally needs a web tool. Python is **not** required. The optional helper needs a shell and Python 3.10+, with no third-party packages; on Windows, `py -3` may replace `python3`.
 
-Installing a skill cannot grant a runtime, network access, or bypass an agent host's approval policy. Some hosts may ask before running a script or fetching a page; this repository cannot guarantee prompt-free operation in every agent.
+Installing a skill cannot grant a runtime or network access, or bypass an agent host's approval policy. Some hosts ask before running a script or fetching a page.
 
 ## Optional helper
 
 ```bash
 python3 scripts/fluxui_docs.py catalog
+python3 scripts/fluxui_docs.py brief date-picker
 python3 scripts/fluxui_docs.py show date-picker
-python3 scripts/fluxui_docs.py show datetime-picker
-python3 scripts/fluxui_docs.py show theming
-python3 scripts/fluxui_docs.py show sidebar
-python3 scripts/fluxui_docs.py show datetime-picker --offline
+python3 scripts/fluxui_docs.py show sidebar --offline
 ```
 
-The cache defaults to `~/.cache/fluxui-development`. Set `FLUXUI_SKILL_CACHE` to use another directory. Add `--json` for structured output. See [SKILL.md](SKILL.md) for the agent workflow.
+The cache defaults to `~/.cache/fluxui-adaptive`. Set `FLUXUI_SKILL_CACHE` to use another directory. Add `--json` for structured output.
 
 ## Maintaining the bundle
 
-Run `python3 scripts/fluxui_docs.py audit` to compare every live guide, layout, and component page with `manifest.json`. The scheduled GitHub Actions workflow runs this check weekly and opens or updates an issue when it finds a new, changed, or removed page. The skill uses live documentation immediately when a bundled hash differs; updating the references is a separate maintenance task.
+`python3 scripts/fluxui_docs.py audit` compares every live page with the bundle. `python3 scripts/fluxui_docs.py sync` downloads new and changed pages, removes deleted ones, and updates `manifest.json`. A weekly GitHub Actions workflow runs `sync` and opens or updates a pull request with the changes. Short notes are not regenerated; the pull request lists the ones worth reviewing.
+
+The workflow needs **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests** enabled.
 
 ## Verify
 
@@ -43,6 +42,10 @@ Run `python3 scripts/fluxui_docs.py audit` to compare every live guide, layout, 
 python3 -m unittest discover -s tests -v
 ```
 
-## Attribution
+## Attribution and license
 
-This is an independent project, not affiliated with Livewire or Flux UI. The skill workflow adapts [Laravel Boost's Flux UI skill](https://github.com/laravel/boost/tree/main/.ai/fluxui-pro/skill/fluxui-development), licensed under MIT; its copyright notice is retained in [LICENSE.md](LICENSE.md).
+This is an independent project, not affiliated with Livewire or Flux UI.
+
+- The pages in `references/source/` are the official [Flux UI](https://fluxui.dev) documentation, © Flux UI, bundled with the permission of the Flux UI team. They are not covered by this repository's MIT license.
+- The skill workflow adapts [Laravel Boost's Flux UI skill](https://github.com/laravel/boost/tree/main/.ai/fluxui-pro/skill/fluxui-development), licensed under MIT; its copyright notice is retained in [LICENSE.md](LICENSE.md).
+- The skill contains no Flux component source code. Flux Pro components still require a Flux Pro license.

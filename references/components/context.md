@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Open a menu from a right-click target.
 - **Main tags:** `flux:context`.
-- **Common props:** `wire:model`, `position`, `gap`, `offset`, `target`, `detail`, `disabled`.
 
 **Starter:**
 
@@ -22,10 +21,4 @@
 - **Context trigger** — Wrap the target and its menu so right-click opens the actions.
 - **Placement and state** — Configure position, gap, offset, or bind the open state with Livewire.
 
-## Component API
-
-- **`flux:context`** — props: `wire:model`, `position`, `gap` (default `4`), `offset`, `target`, `detail`, `disabled`.
-
-**Implementation:** Wrap the target and a `flux:menu` in `flux:context`. Positioning and open state can be configured.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/context.md).
+**Full page:** `references/source/components/context.md` (bundled) or [live](https://fluxui.dev/components/context.md). Read it for exact props, slots, and values.

@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Present a focused dialog or flyout over the page.
 - **Main tags:** `flux:modal`, `flux:modal.trigger`, `flux:modal.close`.
-- **Common props:** `name`, `flyout`, `variant`, `position`, `scroll`, `dismissible`, `escapable`, `closable`, `wire:model`, `close`, `cancel`.
 
 **Starter:**
 
@@ -33,11 +32,4 @@
 - **Flyout positioning** — tags `flux:modal`; settings `flyout`, `position="left"`.
 - **Floating flyout** — tags `flux:modal.trigger`, `flux:button`, `flux:modal`, `flux:heading`, `flux:subheading`; settings `flyout`, `variant="floating"`, `variant="filled"`, `variant="primary"`.
 
-## Component API
-
-- **`flux:modal`** — props: `name`, `flyout`, `variant` (values `default`, `floating`, `bare`, `flyout`), `position` (values `right`, `left`, `bottom`), `scroll` (values `body`), `dismissible` (default `true`), `escapable` (default `true`), `closable` (default `true`), `wire:model`; events: `close`, `cancel`; classs: `w-*`.
-- **`flux:modal.trigger`** — props: `name`, `shortcut`.
-
-**Implementation:** Give the modal a unique `name` and pair it with `flux:modal.trigger`; it can also be controlled through Livewire or JavaScript.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/modal.md).
+**Full page:** `references/source/components/modal.md` (bundled) or [live](https://fluxui.dev/components/modal.md). Read it for exact props, slots, and values.

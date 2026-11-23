@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Choose a date and time together for a scheduled event.
 - **Main tags:** `flux:datetime-picker`, `flux:datetime-picker.button`.
-- **Common props:** `wire:model`, `value`, `name`, `mode`, `placeholder`, `size`, `time`, `interval`, `time-format`, `min`, `max`, `min-time`.
 
 **Starter:**
 
@@ -39,11 +38,4 @@
 - **Timezones** — Values are local wall-clock times; convert to the user timezone explicitly when the application needs it.
 - **The DateTimeRange object** — Bind a `Flux\DateTimeRange` for a range with Carbon start and end values.
 
-## Component API
-
-- **`flux:datetime-picker`** — props: `wire:model`, `value`, `name`, `mode` (values `single`, `range`), `placeholder` (default `Select a date and time`), `size` (values `xs`, `sm`, `lg`, `xl`, `2xl`), `time` (values `list`, `input`), `interval` (default `30`), `time-format` (values `auto`, `12-hour`, `24-hour`), `min`, `max`, `min-time`, `max-time`, `unavailable`, `default-time`, `min-range`, `max-range`, `months` (default `1`), `with-confirmation`, `clearable`, `with-today`, `selectable-header`, `week-numbers`, `start-day` (values `0`, `6`), `fixed-weeks`, `open-to`, `locale`, `label`, `description`, `description:trailing`, `badge`, `disabled`, `invalid`; slots: `trigger`; events: `open`, `close`, `clear`.
-- **`flux:datetime-picker.button`** — props: `placeholder`, `size` (values `sm`, `xs`), `clearable`, `invalid`.
-
-**Implementation:** Single values use `Y-m-d\TH:i`; `mode="range"` accepts start/end datetimes. Configure time input, interval, limits, and unavailable slots as needed.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/datetime-picker.md).
+**Full page:** `references/source/components/datetime-picker.md` (bundled) or [live](https://fluxui.dev/components/datetime-picker.md). Read it for exact props, slots, and values.

@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Trigger an action or present a link.
 - **Main tags:** `flux:button`, `flux:button.group`.
-- **Common props:** `as`, `href`, `type`, `variant`, `color`, `size`, `icon`, `icon:variant`, `icon:trailing`, `square`, `align`, `inset`.
 
 **Starter:**
 
@@ -34,10 +33,4 @@
 - **Square** — tags `flux:button`; settings `square`.
 - **Inset** — tags `flux:heading`, `flux:button`; settings `size="sm"`, `icon`, `variant="ghost"`, `inset`.
 
-## Component API
-
-- **`flux:button`** — props: `as` (values `button`, `a`, `div`), `href`, `type` (values `button`, `submit`), `variant` (values `outline`, `primary`, `filled`, `danger`, `ghost`, `subtle`; default `outline`), `color`, `size` (values `base`, `sm`, `xs`), `icon`, `icon:variant` (values `outline`, `solid`, `mini`, `micro`; default `micro`), `icon:trailing`, `square`, `align` (values `start`, `center`, `end`; default `center`), `inset` (values `top`, `bottom`, `left`, `right`), `loading` (default `true`), `tooltip`, `tooltip:position` (values `top`, `bottom`, `left`, `right`; default `top`), `tooltip:kbd`, `kbd`; CSS: `class`.
-
-**Implementation:** Choose `type="submit"` for form submission or `href` for navigation. `variant`, `color`, `size`, and icon props change appearance; loading is available for Livewire actions.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/button.md).
+**Full page:** `references/source/components/button.md` (bundled) or [live](https://fluxui.dev/components/button.md). Read it for exact props, slots, and values.

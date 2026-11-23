@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Choose one or more clock times.
 - **Main tags:** `flux:time-picker`.
-- **Common props:** `wire:model`, `value`, `type`, `multiple`, `time-format`, `interval`, `min`, `max`, `unavailable`, `open-to`, `label`, `description`.
 
 **Starter:**
 
@@ -30,10 +29,4 @@
 - **Open to** — tags `flux:time-picker`; settings `open-to="10:00"`.
 - **Localization** — tags `flux:time-picker`; settings `locale="ja-JP"`.
 
-## Component API
-
-- **`flux:time-picker`** — props: `wire:model`, `value`, `type` (values `input`, `button`; default `button`), `multiple` (default `false`), `time-format` (values `auto`, `12-hour`, `24-hour`), `interval` (default `30`), `min`, `max`, `unavailable`, `open-to`, `label`, `description`, `description:trailing`, `badge`, `placeholder`, `size` (values `sm`, `xs`), `clearable`, `disabled`, `invalid`, `locale`.
-
-**Implementation:** Single values use `H:i`; a typed trigger or interval list can suit the task. Check multiple mode and time limits in the live page.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/time-picker.md).
+**Full page:** `references/source/components/time-picker.md` (bundled) or [live](https://fluxui.dev/components/time-picker.md). Read it for exact props, slots, and values.

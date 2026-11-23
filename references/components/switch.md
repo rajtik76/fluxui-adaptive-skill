@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Turn a boolean setting on or off.
 - **Main tags:** `flux:switch`.
-- **Common props:** `wire:model`, `label`, `description`, `align`, `disabled`.
 
 **Starter:**
 
@@ -22,10 +21,4 @@
 - **Fieldset** — tags `flux:fieldset`, `flux:legend`, `flux:switch`, `flux:separator`.
 - **Left align** — tags `flux:fieldset`, `flux:legend`, `flux:switch`; settings `align="left"`.
 
-## Component API
-
-- **`flux:switch`** — props: `wire:model`, `label`, `description`, `align` (values `right|start`, `left|end`), `disabled`.
-
-**Implementation:** Bind with Livewire and provide a clear label. Use an inline field or a fieldset for grouped settings.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/switch.md).
+**Full page:** `references/source/components/switch.md` (bundled) or [live](https://fluxui.dev/components/switch.md). Read it for exact props, slots, and values.

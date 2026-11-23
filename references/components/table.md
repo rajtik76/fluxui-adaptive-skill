@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Display rows and columns of structured data.
 - **Main tags:** `flux:table`, `flux:table.columns`, `flux:table.column`, `flux:table.rows`, `flux:table.row`, `flux:table.cell`.
-- **Common props:** `bleed`, `paginate`, `pagination:scroll-to`, `container:class`.
 
 **Starter:**
 
@@ -28,14 +27,4 @@
 - **Sticky header** — tags `flux:table`, `flux:table.columns`; settings `container:class="max-h-80"`, `sticky`.
 - **Sticky columns** — tags `flux:table`, `flux:table.columns`, `flux:table.column`, `flux:table.rows`, `flux:table.row`; settings `container:class="max-h-80"`, `sticky`.
 
-## Component API
-
-- **`flux:table`** — props: `bleed`, `paginate`, `pagination:scroll-to` (default `body`), `container:class`.
-- **`flux:table.columns`** — props: `sticky`.
-- **`flux:table.column`** — props: `align` (values `start`, `center`, `end`), `sortable`, `sorted`, `direction` (values `asc`, `desc`), `sticky`.
-- **`flux:table.row`** — props: `key`, `sticky`.
-- **`flux:table.cell`** — props: `align` (values `start`, `center`, `end`), `variant` (values `default`, `strong`), `sticky`.
-
-**Implementation:** Compose columns, rows, and cells. Sorting state, sticky sections, and Laravel pagination can be added where needed.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/table.md).
+**Full page:** `references/source/components/table.md` (bundled) or [live](https://fluxui.dev/components/table.md). Read it for exact props, slots, and values.

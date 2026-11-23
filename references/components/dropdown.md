@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Attach a menu to a trigger.
 - **Main tags:** `flux:dropdown`, `flux:menu`, `flux:menu.item`, `flux:menu.submenu`, `flux:menu.separator`, `flux:menu.checkbox.group`.
-- **Common props:** `position`, `align`, `offset`, `gap`.
 
 **Starter:**
 
@@ -30,17 +29,4 @@
 - **Submenus** — tags `flux:dropdown`, `flux:button`, `flux:menu`, `flux:menu.submenu`, `flux:menu.radio`; settings `icon:trailing`, `heading`, `checked`, `variant="danger"`.
 - **Keep open** — tags `flux:dropdown`, `flux:button`, `flux:menu`, `flux:menu.checkbox`; settings `icon:trailing`, `keep-open`, `checked`.
 
-## Component API
-
-- **`flux:dropdown`** — props: `position` (values `top`, `right`, `bottom`, `left`), `align` (values `start`, `center`, `end`; default `start`), `offset` (default `0`), `gap` (default `4`).
-- **`flux:menu`** — props: `keep-open`.
-- **`flux:menu.item`** — props: `icon`, `icon:trailing`, `icon:variant` (values `outline`, `solid`, `mini`, `micro`), `kbd`, `suffix`, `variant` (values `default`, `danger`), `disabled`, `keep-open`.
-- **`flux:menu.submenu`** — props: `heading`, `icon`, `icon:trailing`, `icon:variant` (values `outline`, `solid`, `mini`, `micro`), `keep-open`.
-- **`flux:menu.checkbox.group`** — props: `wire:model`.
-- **`flux:menu.checkbox`** — props: `wire:model`, `checked`, `disabled`, `keep-open`.
-- **`flux:menu.radio.group`** — props: `wire:model`, `keep-open`.
-- **`flux:menu.radio`** — props: `checked`, `disabled`, `keep-open`.
-
-**Implementation:** Put a trigger and `flux:menu` in `flux:dropdown`. Menu items can navigate or run actions; nested menus and choice items are available.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/dropdown.md).
+**Full page:** `references/source/components/dropdown.md` (bundled) or [live](https://fluxui.dev/components/dropdown.md). Read it for exact props, slots, and values.

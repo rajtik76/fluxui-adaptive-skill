@@ -3,7 +3,6 @@
 - **Availability:** Flux (free).
 - **Use:** Reserve space while content loads.
 - **Main tags:** `flux:skeleton`, `flux:skeleton.line`, `flux:skeleton.group`.
-- **Common props:** `animate`.
 
 **Starter:**
 
@@ -24,12 +23,4 @@
 - **Table** — tags `flux:skeleton.group`, `flux:table`, `flux:table.columns`, `flux:table.column`, `flux:table.rows`; settings `animate="shimmer"`.
 - **Chart** — tags `flux:card`, `flux:text`, `flux:heading`, `flux:skeleton`; settings `size="xl"`, `size="lg"`, `animate="shimmer"`.
 
-## Component API
-
-- **`flux:skeleton`** — props: `animate` (values `shimmer`, `pulse`).
-- **`flux:skeleton.line`** — props: `size` (values `base`, `lg`), `animate` (values `shimmer`, `pulse`).
-- **`flux:skeleton.group`** — props: `animate` (values `shimmer`, `pulse`).
-
-**Implementation:** Combine blocks or lines in `flux:skeleton.group`; pick animation and dimensions to match the eventual content.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/skeleton.md).
+**Full page:** `references/source/components/skeleton.md` (bundled) or [live](https://fluxui.dev/components/skeleton.md). Read it for exact props, slots, and values.

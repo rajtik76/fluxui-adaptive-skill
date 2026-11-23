@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Select dates directly in a calendar view.
 - **Main tags:** `flux:calendar`.
-- **Common props:** `wire:model`, `value`, `mode`, `min`, `max`, `unavailable`, `size`, `start-day`, `months`, `min-range`, `max-range`, `open-to`.
 
 **Starter:**
 
@@ -40,10 +39,4 @@
 - **Using with Eloquent** — A `DateRange` can supply bounds to Eloquent `whereBetween()`.
 - **Available methods** — `DateRange` extends `CarbonPeriod` and exposes its date-range methods.
 
-## Component API
-
-- **`flux:calendar`** — props: `wire:model`, `value`, `mode` (values `single`, `multiple`, `range`), `min`, `max`, `unavailable`, `size` (values `base`, `xs`, `sm`, `lg`, `xl`, `2xl`), `start-day` (values `0`, `6`), `months` (default `1`), `min-range`, `max-range`, `open-to`, `force-open-to` (default `false`), `navigation` (default `true`), `static` (default `false`), `multiple` (default `false`), `week-numbers` (default `false`), `selectable-header` (default `false`), `with-today` (default `false`), `with-inputs` (default `false`), `locale`.
-
-**Implementation:** Bind with `wire:model`; `mode` supports single, multiple, and range selection. Check date limits and unavailable dates for constrained booking flows.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/calendar.md).
+**Full page:** `references/source/components/calendar.md` (bundled) or [live](https://fluxui.dev/components/calendar.md). Read it for exact props, slots, and values.

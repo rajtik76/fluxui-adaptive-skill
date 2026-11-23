@@ -3,7 +3,6 @@
 - **Availability:** Flux Pro.
 - **Use:** Let someone choose or enter a color.
 - **Main tags:** `flux:color-picker`, `flux:color-picker.area`, `flux:color-picker.slider`, `flux:color-picker.input`, `flux:color-picker.swatches`, `flux:color-picker.swatch`.
-- **Common props:** `wire:model`, `value`, `name`, `format`, `type`, `placeholder`, `size`, `:swatches`, `dropper`, `clearable`, `copyable`, `label`.
 
 **Starter:**
 
@@ -30,16 +29,4 @@
 - **Copyable** — tags `flux:color-picker`; settings `copyable`.
 - **Disabled** — tags `flux:color-picker`; settings `disabled`.
 
-## Component API
-
-- **`flux:color-picker`** — props: `wire:model`, `value`, `name`, `format` (values `hex`, `hexa`, `rgb`, `rgba`, `hsl`, `hsla`), `type` (values `input`, `button`), `placeholder`, `size` (values `sm`, `xs`), `:swatches`, `dropper` (default `false`), `clearable` (default `false`), `copyable` (default `false`), `label`, `description`, `disabled` (default `false`), `invalid`.
-- **`flux:color-picker.area`** — props: `class`.
-- **`flux:color-picker.slider`** — props: `channel` (values `hue`, `alpha`).
-- **`flux:color-picker.input`** — props: `placeholder`.
-- **`flux:color-picker.swatches`** — props: `class`.
-- **`flux:color-picker.swatch`** — props: `value`, `label`.
-- **`flux:color-picker.dropper`** — props: `class`.
-
-**Implementation:** Bind the selected color with Livewire. `format` controls formats such as hex or RGB; swatches, alpha, eyedropper, and clear controls are available.
-
-**Current source:** [Flux UI](https://fluxui.dev/components/color-picker.md).
+**Full page:** `references/source/components/color-picker.md` (bundled) or [live](https://fluxui.dev/components/color-picker.md). Read it for exact props, slots, and values.
