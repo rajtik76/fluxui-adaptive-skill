@@ -2,6 +2,11 @@
 name: fluxui-adaptive
 description: Build Livewire interfaces with Flux UI and Flux Pro using bundled official documentation, a live index for new pages, and short notes for choosing components. Use for any flux:* Blade markup, Flux setup, theming, or layouts.
 license: MIT, except references/source/ (official Flux UI documentation, see LICENSE.md)
+tags:
+  - laravel
+  - php
+  - livewire
+  - flux-ui
 ---
 
 # Flux UI development
