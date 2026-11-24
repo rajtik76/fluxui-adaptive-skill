@@ -32,9 +32,7 @@ The cache defaults to `~/.cache/fluxui-adaptive`. Set `FLUXUI_SKILL_CACHE` to us
 
 ## Maintaining the bundle
 
-`python3 scripts/fluxui_docs.py audit` compares every live page with the bundle. `python3 scripts/fluxui_docs.py sync` downloads new and changed pages, removes deleted ones, and updates `manifest.json`. A weekly GitHub Actions workflow runs `sync` and opens or updates a pull request with the changes. Short notes are not regenerated; the pull request lists the ones worth reviewing.
-
-The workflow needs **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests** enabled.
+`python3 scripts/fluxui_docs.py audit` compares every live page with the bundle. `python3 scripts/fluxui_docs.py sync` downloads new and changed pages, removes deleted ones, and updates `manifest.json`. A weekly GitHub Actions workflow in a separate private repository runs `sync` and opens or updates a pull request with the changes, so this repository holds no workflow that writes to it. Short notes are not regenerated; the pull request lists the ones worth reviewing.
 
 ## Verify
 
