@@ -96,6 +96,128 @@ def pro_sections(markdown: str) -> list[str]:
     return sections
 
 
+NOTE_SKIP_SECTIONS = {"Related", "Reference"}
+NOTE_MAX_SETTINGS = 6
+NOTE_STARTER_LINES = 15
+FLUX_TAG = re.compile(r"<(flux:[a-z0-9.-]+)([^>]*)>", re.S)
+TAG_ATTR = re.compile(r'(?<![\w:.-])([a-z][a-z0-9:.-]*)(?:="([^"]*)")?')
+ENUM_VALUE = re.compile(r"^[a-z0-9][a-z0-9 -]{0,19}$")
+FREE_TEXT_ATTRS = {
+    "alt", "badge", "description", "heading", "href", "icon", "icon:leading", "icon:trailing",
+    "id", "initials", "key", "label", "name", "placeholder", "src", "subheading", "text",
+    "title", "tooltip", "value",
+}
+
+
+def page_outline(markdown: str) -> tuple[list[tuple[str, str]], list[dict], list[str]]:
+    """Split a page into intro code, level-two sections with their code, and reference tags.
+
+    Headings inside fenced code (such as PHP attributes) are ignored.
+    """
+    intro: list[tuple[str, str]] = []
+    sections: list[dict] = []
+    reference: list[str] = []
+    fence = None
+    lang, body = "", []
+    for line in markdown.splitlines():
+        stripped = line.strip()
+        if fence is None and stripped.startswith("```"):
+            fence, lang, body = stripped[:3], stripped[3:].strip(), []
+            continue
+        if fence is not None:
+            if stripped == fence:
+                (sections[-1]["code"] if sections else intro).append((lang, "\n".join(body)))
+                fence = None
+            else:
+                body.append(line)
+            continue
+        if line.startswith("## "):
+            sections.append({"heading": line[3:].strip(), "code": []})
+        elif line.startswith("### flux:"):
+            reference.append(line[4:].strip())
+    return intro, sections, reference
+
+
+def code_tags(code: str) -> tuple[list[str], list[str]]:
+    """Return flux tags and their notable settings from a code sample, in order of appearance."""
+    tags: list[str] = []
+    settings: list[str] = []
+    for tag, attrs in FLUX_TAG.findall(code):
+        if tag not in tags:
+            tags.append(tag)
+        for name, value in TAG_ATTR.findall(attrs):
+            if name.startswith(("wire:", "x-", ":")) or name == "class":
+                continue
+            setting = f'{name}="{value}"' if value and name not in FREE_TEXT_ATTRS and ENUM_VALUE.match(value) else name
+            if setting not in settings:
+                settings.append(setting)
+    return tags, settings
+
+
+def draft_note(kind: str, entry: dict, markdown: str) -> str:
+    """Build a short-note skeleton from a page; the judgment parts are left as TODO."""
+    full_page = f"**Full page:** `{entry['source']}` (bundled) or [live]({entry['source_url']})."
+    if kind != "components":
+        topic = "guide" if kind == "guides" else "layout"
+        return (
+            f"# {entry['name']}\n\n"
+            f"TODO: summarize when to use this {topic} and the decisions it covers, written from the full page.\n\n"
+            f"{full_page}\n"
+        )
+    intro, sections, reference = page_outline(markdown)
+    sections = [s for s in sections if s["heading"] not in NOTE_SKIP_SECTIONS]
+    if entry["pro"]:
+        availability = "Flux Pro."
+    elif entry.get("pro_sections"):
+        availability = f"Flux (free); {', '.join(entry['pro_sections'])} require Flux Pro."
+    else:
+        availability = "Flux (free)."
+    samples = intro + [code for s in sections for code in s["code"]]
+    samples = [(lang, code) for lang, code in samples if "<flux:" in code]
+    short = [sample for sample in samples if len(sample[1].splitlines()) <= NOTE_STARTER_LINES]
+    all_tags: list[str] = []
+    capabilities = []
+    for section in sections:
+        tags: list[str] = []
+        settings: list[str] = []
+        for _, code in section["code"]:
+            found_tags, found_settings = code_tags(code)
+            tags += [t for t in found_tags if t not in tags]
+            settings += [s for s in found_settings if s not in settings]
+        all_tags += [t for t in tags if t not in all_tags]
+        parts = []
+        if tags:
+            parts.append("tags " + ", ".join(f"`{t}`" for t in tags))
+        if settings:
+            parts.append("settings " + ", ".join(f"`{s}`" for s in settings[:NOTE_MAX_SETTINGS]))
+        line = f"- **{section['heading']}**"
+        capabilities.append(f"{line} — {'; '.join(parts)}." if parts else line)
+    main_tags = reference or all_tags
+    lines = [
+        f"# {entry['name']}",
+        "",
+        f"- **Availability:** {availability}",
+        f"- **Use:** {entry['summary']}",
+        "- **Main tags:** " + ", ".join(f"`{t}`" for t in main_tags) + ".",
+        "",
+    ]
+    if samples:
+        lang, code = (short or samples)[0]
+        lines += ["**Starter:**", "", f"```{lang}", code, "```", ""]
+    lines += [
+        "## How to customize",
+        "",
+        "- TODO: two or three bullets on how to adapt this component, written from the full page.",
+        "",
+        "## Capabilities",
+        "",
+        *capabilities,
+        "",
+        f"{full_page} Read it for exact props, slots, and values.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def source_path(url: str) -> str:
     """Map an official page URL to its bundled copy, mirroring the site path."""
     return "references/source/" + urllib.parse.urlsplit(url).path.lstrip("/")
@@ -208,8 +330,24 @@ class Docs:
     def sync(self) -> dict:
         """Bring bundled pages and the manifest up to date with the live site."""
         indexed, pages, changes, unchanged = self._compare()
-        if not changes:
-            return {"synced_at": self.manifest.get("snapshot"), "unchanged": unchanged, "changes": []}
+        if changes:
+            self._apply(changes, indexed, pages)
+        linked, drafted = self._draft_missing_notes()
+        if changes or linked:
+            for kind in KINDS:
+                self.manifest[kind] = dict(sorted(self.manifest.get(kind, {}).items()))
+            atomic_write(
+                self.manifest_path,
+                (json.dumps(self.manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),
+            )
+        return {
+            "synced_at": self.manifest.get("snapshot"),
+            "unchanged": unchanged,
+            "changes": changes,
+            "notes_drafted": drafted,
+        }
+
+    def _apply(self, changes: list[dict], indexed: dict, pages: dict[str, bytes]) -> None:
         bundled = self.bundled
         for change in changes:
             slug = change["slug"]
@@ -244,14 +382,23 @@ class Docs:
                 entry["note"] = local["note"]
                 change["note_review"] = True
             self.manifest.setdefault(live["kind"], {})[slug] = entry
-        for kind in KINDS:
-            self.manifest[kind] = dict(sorted(self.manifest.get(kind, {}).items()))
         self.manifest["snapshot"] = now()
-        atomic_write(
-            self.manifest_path,
-            (json.dumps(self.manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),
-        )
-        return {"synced_at": self.manifest["snapshot"], "unchanged": unchanged, "changes": changes}
+
+    def _draft_missing_notes(self) -> tuple[list[str], list[str]]:
+        """Link a note to every bundled page without one, drafting a skeleton unless the file exists."""
+        linked, drafted = [], []
+        for kind in KINDS:
+            for slug, entry in self.manifest.get(kind, {}).items():
+                if entry.get("note"):
+                    continue
+                path = f"references/{kind}/{slug}.md"
+                if not (self.root / path).exists():
+                    markdown = (self.root / entry["source"]).read_text(encoding="utf-8")
+                    atomic_write(self.root / path, draft_note(kind, entry, markdown).encode("utf-8"))
+                    drafted.append(slug)
+                entry["note"] = path
+                linked.append(slug)
+        return linked, drafted
 
     def _snapshot_time(self) -> float:
         snapshot = self.manifest.get("snapshot")
@@ -390,6 +537,8 @@ def main() -> int:
         print(f"Unchanged: {result['unchanged']}; changes: {len(result['changes'])}")
         for item in result["changes"]:
             print(f"- {item['slug']}: {item['status']} ({item['url']})")
+        if result.get("notes_drafted"):
+            print("Note skeletons to finish (TODO): " + ", ".join(result["notes_drafted"]))
     elif args.command == "brief":
         print(f"{result['slug']}: bundled note; full page: {result['source']}")
         print(result["content"])

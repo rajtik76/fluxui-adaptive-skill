@@ -9,7 +9,7 @@ from pathlib import Path
 
 SKILL = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL / "scripts"))
-from fluxui_docs import Docs, INDEX_URL, sha256  # noqa: E402
+from fluxui_docs import Docs, INDEX_URL, draft_note, sha256  # noqa: E402
 
 
 DATE_URL = "https://fluxui.dev/components/date-picker.md"
@@ -214,7 +214,11 @@ class DocsTest(unittest.TestCase):
         self.assertEqual(new["source"], "references/source/components/datetime-picker.md")
         self.assertEqual(new["summary"], "Pick dates and times.")
         self.assertTrue(new["pro"])
-        self.assertNotIn("note", new)
+        self.assertEqual(new["note"], "references/components/datetime-picker.md")
+        self.assertEqual(report["notes_drafted"], ["datetime-picker"])
+        skeleton = (self.root / new["note"]).read_text()
+        self.assertIn("# Datetime picker", skeleton)
+        self.assertIn("TODO", skeleton)
         self.assertEqual((self.root / new["source"]).read_bytes(), NEW)
 
     def test_sync_without_changes_leaves_manifest_untouched(self):
@@ -223,6 +227,69 @@ class DocsTest(unittest.TestCase):
         docs, _ = self.docs({INDEX_URL: index, DATE_URL: ORIGINAL, THEMING_URL: THEMING})
         self.assertEqual(docs.sync()["changes"], [])
         self.assertEqual((self.root / "manifest.json").read_bytes(), before)
+
+    def test_sync_drafts_note_for_unchanged_page_without_one(self):
+        manifest = json.loads((self.root / "manifest.json").read_text())
+        del manifest["components"]["date-picker"]["note"]
+        (self.root / "references/components/date-picker.md").unlink()
+        (self.root / "manifest.json").write_text(json.dumps(manifest))
+        index = f"# Flux UI\n## Components\n- [Date picker]({DATE_URL}) - Pick dates.\n## Guides\n- [Theming]({THEMING_URL}) - Style.\n".encode()
+        docs, _ = self.docs({INDEX_URL: index, DATE_URL: ORIGINAL, THEMING_URL: THEMING})
+        report = docs.sync()
+        self.assertEqual((report["changes"], report["notes_drafted"]), ([], ["date-picker"]))
+        saved = json.loads((self.root / "manifest.json").read_text())
+        self.assertEqual(saved["snapshot"], self.manifest["snapshot"])
+        self.assertEqual(saved["components"]["date-picker"]["note"], "references/components/date-picker.md")
+        self.assertIn("TODO", (self.root / "references/components/date-picker.md").read_text())
+
+    def test_sync_links_existing_note_file_without_overwriting(self):
+        manifest = json.loads((self.root / "manifest.json").read_text())
+        del manifest["components"]["date-picker"]["note"]
+        (self.root / "manifest.json").write_text(json.dumps(manifest))
+        index = f"# Flux UI\n## Components\n- [Date picker]({DATE_URL}) - Pick dates.\n## Guides\n- [Theming]({THEMING_URL}) - Style.\n".encode()
+        docs, _ = self.docs({INDEX_URL: index, DATE_URL: ORIGINAL, THEMING_URL: THEMING})
+        self.assertEqual(docs.sync()["notes_drafted"], [])
+        saved = json.loads((self.root / "manifest.json").read_text())
+        self.assertEqual(saved["components"]["date-picker"]["note"], "references/components/date-picker.md")
+        self.assertEqual((self.root / "references/components/date-picker.md").read_text(), "# Date picker note\n")
+
+
+class DraftNoteTest(unittest.TestCase):
+    ENTRY = {
+        "name": "Badge",
+        "summary": "Mark status.",
+        "source_url": "https://fluxui.dev/components/badge.md",
+        "source": "references/source/components/badge.md",
+        "pro": False,
+        "pro_sections": ["Solid"],
+    }
+    PAGE = (
+        "# Badge\n\nIntro.\n\n```blade\n<flux:badge color=\"lime\">New</flux:badge>\n```\n\n"
+        "## Icons\n\n```blade\n<flux:badge icon=\"user\" size=\"lg\" wire:click=\"go\">Users</flux:badge>\n```\n\n"
+        "## Close\n\n```blade\n<flux:badge>\n    Admin <flux:badge.close />\n</flux:badge>\n```\n\n"
+        "## Backend\n\n```php\n#[Computed]\npublic function users() {}\n```\n\n"
+        "## Reference\n\n### flux:badge\n\n### flux:badge.close\n"
+    )
+
+    def test_component_skeleton_is_built_from_the_page(self):
+        note = draft_note("components", self.ENTRY, self.PAGE)
+        self.assertIn("- **Availability:** Flux (free); Solid require Flux Pro.", note)
+        self.assertIn("- **Use:** Mark status.", note)
+        self.assertIn("- **Main tags:** `flux:badge`, `flux:badge.close`.", note)
+        self.assertIn('```blade\n<flux:badge color="lime">New</flux:badge>\n```', note)
+        self.assertIn('- **Icons** — tags `flux:badge`; settings `icon`, `size="lg"`.', note)
+        self.assertIn("- **Close** — tags `flux:badge`, `flux:badge.close`.", note)
+        self.assertIn("- **Backend**\n", note)
+        self.assertNotIn("**#[Computed]**", note)
+        self.assertNotIn("**Reference**", note)
+        self.assertIn("## How to customize\n\n- TODO:", note)
+        self.assertIn("`references/source/components/badge.md`", note)
+
+    def test_guide_skeleton_is_a_placeholder_with_the_full_page(self):
+        entry = {**self.ENTRY, "name": "Theming", "source": "references/source/docs/theming.md"}
+        note = draft_note("guides", entry, "# Theming\n")
+        self.assertTrue(note.startswith("# Theming\n\nTODO:"))
+        self.assertIn("`references/source/docs/theming.md`", note)
 
 
 class BundleTest(unittest.TestCase):
