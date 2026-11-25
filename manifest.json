@@ -252,7 +252,8 @@
       "source_url": "https://fluxui.dev/components/item.md",
       "source_sha256": "05ebe68404b3110eff7a582b0afe405b59d19580d10c6dc0000449aa5c6ff8b8",
       "source": "references/source/components/item.md",
-      "pro": false
+      "pro": false,
+      "note": "references/components/item.md"
     },
     "kanban": {
       "name": "Kanban",
