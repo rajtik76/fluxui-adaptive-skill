@@ -19,7 +19,9 @@
 
 ## How to customize
 
-- TODO: two or three bullets on how to adapt this component, written from the full page.
+- Wrap rows in `flux:item.group` for one bordered surface with rules between items; a lone `flux:item` draws its own surface.
+- Drop `flux:item.subheading` for a single-line row; lead with an avatar or icon in `flux:item.media`, end with buttons, a switch, a value, or a menu in `flux:item.actions`.
+- Rows adapt to the item's own width, not the screen: a labeled button moves under the text, so the same markup works in a modal or sidebar.
 
 ## Capabilities
 
@@ -28,6 +30,6 @@
 - **Actions** — tags `flux:item.group`, `flux:item`, `flux:item.heading`, `flux:item.subheading`, `flux:item.actions`, `flux:button`, `flux:switch`, `flux:heading`; settings `size="sm"`, `variant="subtle"`, `aria-label`, `checked`.
 - **Media** — tags `flux:item.group`, `flux:item`, `flux:item.media`, `flux:avatar`, `flux:item.heading`, `flux:item.subheading`; settings `size="sm"`, `circle`, `src`, `icon`, `initials`.
 - **Narrow widths** — tags `flux:item`, `flux:item.media`, `flux:avatar`, `flux:item.heading`, `flux:item.subheading`, `flux:item.actions`, `flux:button`, `flux:item.group`, `flux:switch`; settings `circle`, `src`, `size="sm"`, `icon:trailing`, `variant="subtle"`, `aria-label`.
-- **Examples** — tags `flux:item.group`, `flux:item`, `flux:item.media`, `flux:avatar`, `flux:item.heading`, `flux:text`, `flux:item.subheading`, `flux:item.actions`, `flux:dropdown`, `flux:button`, `flux:menu`, `flux:menu.radio.group`, `flux:menu.radio`, `flux:menu.separator`, `flux:menu.item`, `flux:badge`, `flux:heading`, `flux:switch`; settings `size="sm"`, `circle`, `src`, `inline`, `variant="subtle"`, `align="end"`.
+- **Examples** — team members with role menus, connected apps, billing, teams, notification switches, and a danger zone; tags `flux:dropdown`, `flux:menu.radio.group`, `flux:badge`, `flux:switch`.
 
 **Full page:** `references/source/components/item.md` (bundled) or [live](https://fluxui.dev/components/item.md). Read it for exact props, slots, and values.
