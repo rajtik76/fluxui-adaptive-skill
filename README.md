@@ -11,7 +11,11 @@ An **unofficial agent skill** for Livewire Flux UI, including Flux Pro. It build
 
 ## Install
 
-Put this repository in your agent's skills directory as `fluxui-adaptive`, preserving `SKILL.md`, `manifest.json`, `references/`, and `scripts/`. The name differs from Laravel Boost's `fluxui-development`, so both can be installed side by side.
+```bash
+npx skills add rajtik76/fluxui-adaptive-skill
+```
+
+Or put this repository in your agent's skills directory as `fluxui-adaptive`, preserving `SKILL.md`, `manifest.json`, `references/`, and `scripts/`. The name differs from Laravel Boost's `fluxui-development`, so both can be installed side by side.
 
 ## Agent compatibility
 
